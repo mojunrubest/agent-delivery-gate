@@ -90,10 +90,12 @@ jobs:
 
       - name: Prepare candidate
         run: |
-          if [[ -f package-lock.json || -f npm-shrinkwrap.json ]]; then
-            npm ci --ignore-scripts
+          if [[ -f package.json ]]; then
+            if [[ -f package-lock.json || -f npm-shrinkwrap.json ]]; then
+              npm ci --ignore-scripts
+            fi
+            npm run build --if-present
           fi
-          npm run build --if-present
 
       - name: Execute protected acceptance contract
         run: |
