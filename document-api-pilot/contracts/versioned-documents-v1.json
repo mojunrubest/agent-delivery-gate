@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1",
+  "policyId": "versioned-documents/http-v1",
+  "command": [
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "{policyDir}/../tests/versioned-documents.contract.test.mjs"
+  ],
+  "timeoutMs": 60000,
+  "maxOutputBytes": 2097152,
+  "result": {
+    "adapter": "tap",
+    "source": "stdout"
+  },
+  "requireCleanTree": true,
+  "requireTests": true,
+  "requirePassingTest": true,
+  "allowFlaky": false
+}
