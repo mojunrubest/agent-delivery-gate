@@ -1,0 +1,402 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-07-30T06:40:28.513Z",
+  "control_commit": "aa19eeb7639e3972b5cad6bda273f245d9ea2c3c",
+  "candidate_repository": "delivery-gate-pilot",
+  "metrics": {
+    "candidates": 20,
+    "planted_valid": 5,
+    "planted_invalid": 15,
+    "public_false_greens": 15,
+    "atomic_false_greens": 0,
+    "atomic_correct_task_acceptance": 1
+  },
+  "decision": "GO",
+  "candidates_detail": [
+    {
+      "id": "valid-01",
+      "branch": "candidate/valid-01",
+      "commit": "67b9c20f5673f5f8a70822bfd699da479feb7617",
+      "expected": "valid",
+      "public_test_accepted": true,
+      "atomic_status": "verified",
+      "atomic_accepted": true,
+      "tests": {
+        "collected": 13,
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": []
+    },
+    {
+      "id": "valid-02",
+      "branch": "candidate/valid-02",
+      "commit": "a38efc5ac7565ac748d55882f73553c77328ba19",
+      "expected": "valid",
+      "public_test_accepted": true,
+      "atomic_status": "verified",
+      "atomic_accepted": true,
+      "tests": {
+        "collected": 13,
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": []
+    },
+    {
+      "id": "valid-03",
+      "branch": "candidate/valid-03",
+      "commit": "c7071ca98e1da804f702a5f840430e3991c54853",
+      "expected": "valid",
+      "public_test_accepted": true,
+      "atomic_status": "verified",
+      "atomic_accepted": true,
+      "tests": {
+        "collected": 13,
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": []
+    },
+    {
+      "id": "valid-04",
+      "branch": "candidate/valid-04",
+      "commit": "b2bcbae381b79a55910019eff92b4019c5915148",
+      "expected": "valid",
+      "public_test_accepted": true,
+      "atomic_status": "verified",
+      "atomic_accepted": true,
+      "tests": {
+        "collected": 13,
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": []
+    },
+    {
+      "id": "valid-05",
+      "branch": "candidate/valid-05",
+      "commit": "da3ad875f0d76bc60c9610480dda205e85d9ce95",
+      "expected": "valid",
+      "public_test_accepted": true,
+      "atomic_status": "verified",
+      "atomic_accepted": true,
+      "tests": {
+        "collected": 13,
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": []
+    },
+    {
+      "id": "invalid-01-no-quantity",
+      "branch": "candidate/invalid-01-no-quantity",
+      "commit": "b4b1fee252a4f822a2c6fc09e91a141edb38e715",
+      "expected": "invalid",
+      "public_test_accepted": true,
+      "atomic_status": "unverified",
+      "atomic_accepted": false,
+      "tests": {
+        "collected": 13,
+        "passed": 12,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ]
+    },
+    {
+      "id": "invalid-02-percent-scale",
+      "branch": "candidate/invalid-02-percent-scale",
+      "commit": "b760d7cb16de3d3616b564255ad39ccea0e823b5",
+      "expected": "invalid",
+      "public_test_accepted": true,
+      "atomic_status": "unverified",
+      "atomic_accepted": false,
+      "tests": {
+        "collected": 13,
+        "passed": 10,
+        "failed": 3,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ]
+    },
+    {
+      "id": "invalid-03-fixed-underflow",
+      "branch": "candidate/invalid-03-fixed-underflow",
+      "commit": "ebfeb5f2707688f718864f62fa3f523449882a7e",
+      "expected": "invalid",
+      "public_test_accepted": true,
+      "atomic_status": "unverified",
+      "atomic_accepted": false,
+      "tests": {
+        "collected": 13,
+        "passed": 12,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ]
+    },
+    {
+      "id": "invalid-04-tax-before-discount",
+      "branch": "candidate/invalid-04-tax-before-discount",
+      "commit": "b013fec5fe338960d518a68b5c27a588ff150b1e",
+      "expected": "invalid",
+      "public_test_accepted": true,
+      "atomic_status": "unverified",
+      "atomic_accepted": false,
+      "tests": {
+        "collected": 13,
+        "passed": 11,
+        "failed": 2,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ]
+    },
+    {
+      "id": "invalid-05-tax-nontaxable",
+      "branch": "candidate/invalid-05-tax-nontaxable",
+      "commit": "02e9a01c1d9746bc4890f9d68e14e8c82fb6f71e",
+      "expected": "invalid",
+      "public_test_accepted": true,
+      "atomic_status": "unverified",
+      "atomic_accepted": false,
+      "tests": {
+        "collected": 13,
+        "passed": 12,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ]
+    },
+    {
+      "id": "invalid-06-shipping-subtotal",
+      "branch": "candidate/invalid-06-shipping-subtotal",
+      "commit": "2238a2de058cdf65cfa33f1f13bd7b61ccc396c9",
+      "expected": "invalid",
+      "public_test_accepted": true,
+      "atomic_status": "unverified",
+      "atomic_accepted": false,
+      "tests": {
+        "collected": 13,
+        "passed": 12,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ]
+    },
+    {
+      "id": "invalid-07-threshold-exclusive",
+      "branch": "candidate/invalid-07-threshold-exclusive",
+      "commit": "f51c38171a2e4b4e60ade1c63044a6ca056e8d50",
+      "expected": "invalid",
+      "public_test_accepted": true,
+      "atomic_status": "unverified",
+      "atomic_accepted": false,
+      "tests": {
+        "collected": 13,
+        "passed": 12,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ]
+    },
+    {
+      "id": "invalid-08-tax-floor",
+      "branch": "candidate/invalid-08-tax-floor",
+      "commit": "1db9345704641ff93b4c8d4f6b73a1e53d0a04eb",
+      "expected": "invalid",
+      "public_test_accepted": true,
+      "atomic_status": "unverified",
+      "atomic_accepted": false,
+      "tests": {
+        "collected": 13,
+        "passed": 12,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ]
+    },
+    {
+      "id": "invalid-09-empty-shipping",
+      "branch": "candidate/invalid-09-empty-shipping",
+      "commit": "d5491f7c9797ff5188547b86fe242cbfe53888ca",
+      "expected": "invalid",
+      "public_test_accepted": true,
+      "atomic_status": "unverified",
+      "atomic_accepted": false,
+      "tests": {
+        "collected": 13,
+        "passed": 12,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ]
+    },
+    {
+      "id": "invalid-10-no-validation",
+      "branch": "candidate/invalid-10-no-validation",
+      "commit": "d7b8d4e4fa3ba80adb25f72855ab953e9a57164b",
+      "expected": "invalid",
+      "public_test_accepted": true,
+      "atomic_status": "unverified",
+      "atomic_accepted": false,
+      "tests": {
+        "collected": 13,
+        "passed": 12,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ]
+    },
+    {
+      "id": "invalid-11-unbounded-quantity",
+      "branch": "candidate/invalid-11-unbounded-quantity",
+      "commit": "d6e3ab290377b36262b31955642d86930833252f",
+      "expected": "invalid",
+      "public_test_accepted": true,
+      "atomic_status": "unverified",
+      "atomic_accepted": false,
+      "tests": {
+        "collected": 13,
+        "passed": 12,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ]
+    },
+    {
+      "id": "invalid-12-percent-rounding",
+      "branch": "candidate/invalid-12-percent-rounding",
+      "commit": "1191c1a48c4c650f68cdd763583f5e5725d0e511",
+      "expected": "invalid",
+      "public_test_accepted": true,
+      "atomic_status": "unverified",
+      "atomic_accepted": false,
+      "tests": {
+        "collected": 13,
+        "passed": 12,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ]
+    },
+    {
+      "id": "invalid-13-ignore-fixed",
+      "branch": "candidate/invalid-13-ignore-fixed",
+      "commit": "c44fa9c6e98d5133c305fce4dd88fd31af33f60c",
+      "expected": "invalid",
+      "public_test_accepted": true,
+      "atomic_status": "unverified",
+      "atomic_accepted": false,
+      "tests": {
+        "collected": 13,
+        "passed": 11,
+        "failed": 2,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ]
+    },
+    {
+      "id": "invalid-14-mutates-input",
+      "branch": "candidate/invalid-14-mutates-input",
+      "commit": "52dfa5f89d8baa8a5bcde38256867896e220c215",
+      "expected": "invalid",
+      "public_test_accepted": true,
+      "atomic_status": "unverified",
+      "atomic_accepted": false,
+      "tests": {
+        "collected": 13,
+        "passed": 12,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ]
+    },
+    {
+      "id": "invalid-15-tax-shipping",
+      "branch": "candidate/invalid-15-tax-shipping",
+      "commit": "e83e612e2f9e9f34ab0d3634054cc6528a042976",
+      "expected": "invalid",
+      "public_test_accepted": true,
+      "atomic_status": "unverified",
+      "atomic_accepted": false,
+      "tests": {
+        "collected": 13,
+        "passed": 11,
+        "failed": 2,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ]
+    }
+  ]
+}
