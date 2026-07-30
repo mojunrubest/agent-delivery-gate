@@ -14,6 +14,9 @@ test("reusable workflow isolates verification from signing authority", async () 
 
   const verifyJob = workflow.slice(verifyStart, attestStart);
   const attestJob = workflow.slice(attestStart);
+  const actionRefs = [...workflow.matchAll(/uses:\s+\S+@(\S+)/g)].map((match) => match[1]);
+  assert(actionRefs.length > 0);
+  assert(actionRefs.every((ref) => /^[0-9a-f]{40}$/.test(ref)), `unpinned action refs: ${actionRefs.join(", ")}`);
   assert.doesNotMatch(verifyJob, /id-token: write/);
   assert.doesNotMatch(verifyJob, /attestations: write/);
   assert.doesNotMatch(verifyJob, /cache: npm/);
