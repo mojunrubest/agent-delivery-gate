@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "1",
+  "recordedAt": "2026-07-30T09:57:00Z",
+  "control": {
+    "repository": "mojunrubest/agent-delivery-gate",
+    "ref": "f52602ba5e03df2b57e8ee5872f967ae25261626",
+    "workflowRun": "https://github.com/mojunrubest/agent-delivery-gate/actions/runs/30532629060",
+    "workflowConclusion": "success"
+  },
+  "consumer": {
+    "repository": "mojunrubest/incident-desk-pilot",
+    "pullRequest": "https://github.com/mojunrubest/incident-desk-pilot/pull/3",
+    "callerHead": "109ef5bb1ed3e4e7fa955d35209d96b6b6ec4964",
+    "workflowRun": "https://github.com/mojunrubest/incident-desk-pilot/actions/runs/30532650028",
+    "workflowConclusion": "success",
+    "hostOwnedAcceptanceSeconds": 47,
+    "attestation": "skipped_by_configuration"
+  },
+  "calibrationRuns": [
+    {
+      "workflowRun": "https://github.com/mojunrubest/incident-desk-pilot/actions/runs/30532116192",
+      "conclusion": "startup_failure",
+      "finding": "caller_must_grant_reusable_workflow_permission_ceiling"
+    },
+    {
+      "workflowRun": "https://github.com/mojunrubest/incident-desk-pilot/actions/runs/30532275839",
+      "conclusion": "failure",
+      "finding": "setup_node_cache_must_not_require_candidate_lockfile"
+    }
+  ],
+  "receipt": {
+    "runId": "2aa6f387-baeb-4b2d-b3b9-f3a50f329c0d",
+    "status": "verified",
+    "policyId": "incident-desk/browser-v1",
+    "policySha256": "32b934f0dce14331bf63a1debc7255fee9b8dab8ab532677cd5d94c426ce581e",
+    "repositoryHead": "2d4dfc03d75825740291dca116d8f0b0d2283b7b",
+    "treeDigestBefore": "aae770186664b4522b3949569f65e09ab4329cec0cba9d94b339c717dc0a693f",
+    "treeDigestAfter": "aae770186664b4522b3949569f65e09ab4329cec0cba9d94b339c717dc0a693f",
+    "dirtyBefore": [],
+    "dirtyAfter": [],
+    "tests": {
+      "collected": 6,
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0
+    },
+    "execution": {
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 4837,
+      "commandSha256": "d7485491a72378c64ba1a4b90f46a56301efceea2d15892070ea5f8cfba6c389"
+    },
+    "artifacts": [
+      {
+        "name": "incident-desk-desktop.png",
+        "sha256": "d94b424f1fed233d5be0c6194ce8f0d4a47199ceb5fcba0ced68bcda0bf0ed12",
+        "bytes": 97057
+      },
+      {
+        "name": "incident-desk-mobile.png",
+        "sha256": "cf212bf3fa89d1ee1c97f1e00ab373cc5a2000887209d2b8d9cc568347c89f7d",
+        "bytes": 83460
+      }
+    ],
+    "failures": []
+  },
+  "githubArtifact": {
+    "id": 8755335908,
+    "name": "delivery-gate-receipt",
+    "digest": "sha256:57731510fa3327cb6d089468b65b69b3d0451fc4b4fc0997e5334d3ffa6c780f",
+    "sizeBytes": 1092,
+    "expiresAt": "2026-08-06T09:56:36Z"
+  }
+}

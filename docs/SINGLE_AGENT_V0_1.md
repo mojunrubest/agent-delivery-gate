@@ -97,6 +97,14 @@ The control policy remains an argv-based JSON document. Browser contracts should
 
 `unverified` means the candidate ran but did not satisfy the contract. `blocked` means trustworthy evaluation could not be completed, for example because the command timed out or structured evidence was unavailable. Neither state is approval.
 
+## Live v0.1 validation
+
+The generated caller was exercised on [Incident Desk PR 3](https://github.com/mojunrubest/incident-desk-pilot/pull/3) without changing the frozen Run 02 application source. The final caller pinned control commit `f52602ba5e03df2b57e8ee5872f967ae25261626` and completed [run 30532650028](https://github.com/mojunrubest/incident-desk-pilot/actions/runs/30532650028) successfully in 47 seconds. The same control commit's own Unit, Chromium, and OIDC workflow completed in [run 30532629060](https://github.com/mojunrubest/agent-delivery-gate/actions/runs/30532629060).
+
+The downloaded receipt was `verified` with 6 / 6 passing tests, no skips or flaky results, an unchanged clean tree, and required desktop and mobile screenshot hashes. GitHub preserved it with a separate artifact digest. The durable structured record is [single-agent-v0.1.json](../browser-pilot/results/single-agent-v0.1.json).
+
+Two preceding workflow runs were useful integration calibration, not Agent repair rounds. The first exposed GitHub's static reusable-workflow permission ceiling: the caller must grant the pinned workflow's maximum permissions even though its candidate-execution job explicitly downgrades to read-only contents. The second exposed an invalid lockfile assumption in `setup-node` caching. Both constraints are now encoded in the generator or reusable workflow and covered by repository tests.
+
 ## Release boundary
 
 Included in v0.1:

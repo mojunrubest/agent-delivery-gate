@@ -112,6 +112,8 @@ The follow-up [Real Browser Agent Pilot](docs/REAL_BROWSER_AGENT_PILOT.md) ran 2
 
 The resulting product boundary and standard one-Agent path are defined in [Single Agent Delivery v0.1](docs/SINGLE_AGENT_V0_1.md). It treats the task prompt as an execution contract rather than a persona and keeps multi-Agent orchestration out of scope until the single-Agent delivery boundary survives broader use.
 
+The generated v0.1 workflow was then validated on a private consumer PR against control commit `f52602ba5e03df2b57e8ee5872f967ae25261626`. The final protected Chromium run passed 6 / 6 and preserved a digest-bound receipt artifact; its [machine-readable evidence](browser-pilot/results/single-agent-v0.1.json) also records two workflow calibration findings discovered before the successful run.
+
 ## GitHub boundary
 
 The included workflow extracts the verifier and contracts from the protected base SHA into `$RUNNER_TEMP`, then points that control-plane verifier at the candidate workspace. It pins GitHub Actions by commit and wraps successful receipts in a GitHub OIDC custom attestation.
