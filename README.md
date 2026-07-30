@@ -98,6 +98,8 @@ Run it with `npm run pilot -- --repo ../delivery-gate-pilot`. The machine-readab
 
 The included workflow extracts the verifier and contracts from the protected base SHA into `$RUNNER_TEMP`, then points that control-plane verifier at the candidate workspace. It pins GitHub Actions by commit and wraps successful receipts in a GitHub OIDC custom attestation.
 
+The live GitHub pilot completed with 5 / 5 correct candidates accepted and 15 / 15 planted false-green candidates rejected. The public control workflow also completed real unit and Chromium receipt attestations. See [GitHub Pilot Status](docs/GITHUB_PILOT_STATUS.md) for run links and the private-repository plan limits observed during execution.
+
 [`reusable-delivery-gate.yml`](.github/workflows/reusable-delivery-gate.yml) is the cross-repository variant. It checks out an immutable control ref, moves it outside the candidate workspace, builds the protected verifier, and executes the selected control-owned policy.
 
 For adoption, make `Host-owned acceptance` a required status check and protect changes to the workflow, policies, verifier package pin, and canonical tests with CODEOWNERS. Organization-wide use should move the control plane into a separately owned reusable workflow or repository.

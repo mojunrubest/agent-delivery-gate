@@ -1,16 +1,28 @@
 # GitHub Pilot Status
 
-## Completed locally
+Snapshot recorded on 2026-07-30.
 
-- verifier and canonical tests are stored in a separate Git control repository
-- the consumer pilot has 20 candidate branches with distinct commits
-- all 20 branches pass the candidate-owned public smoke test
-- the protected contract accepts all 5 correct candidates and rejects all 15 false-green candidates
-- reusable and consumer GitHub workflows are syntactically valid YAML and pin third-party Actions by commit
-- the package can be assembled with `npm pack` for a versioned verifier release
+## Live GitHub execution
 
-## External step still required
+- Control repository: `mojunrubest/agent-delivery-gate` (public).
+- Consumer repository: `mojunrubest/delivery-gate-pilot` (private).
+- The consumer pins the control plane to full commit `9816c0d84e2756114ecc1c5c3c390040f17652aa`.
+- Control workflow run [30523120522](https://github.com/mojunrubest/agent-delivery-gate/actions/runs/30523120522), attempt 2, completed successfully. The unit contract, real Chromium contract, unit receipt attestation, and browser receipt attestation all passed.
+- Consumer PRs 1 through 20 each ran the `Host-owned acceptance` check against a distinct deterministic candidate commit.
 
-GitHub CLI `2.96.0` is installed, but this machine has no authenticated GitHub host, `GITHUB_TOKEN`, `GH_TOKEN`, configured Git remote, or GitHub repository identity. Consequently it cannot create repositories, configure branch protection or repository variables, open pull requests, request GitHub OIDC credentials, or verify a live Sigstore attestation.
+| Candidate class | Public smoke test | Protected contract | Observed GitHub check |
+| --- | ---: | ---: | ---: |
+| 5 complete implementations | 5 / 5 passed | 5 / 5 accepted | 5 / 5 succeeded |
+| 15 planted false-green implementations | 15 / 15 passed | 15 / 15 rejected | 15 / 15 failed |
 
-That missing execution is an authorization boundary, not a verifier implementation task. The exact setup sequence is documented in the pilot repository at `docs/PILOT_SETUP.md`.
+Every rejected PR failed at `Execute protected contract`. Checkout, verifier build, and candidate preparation succeeded first, so infrastructure failures are not counted as verifier rejections. These branches are deterministic candidate simulations, not 20 claimed external Agent sessions.
+
+The matching local evidence is [pilot/results/latest.json](../pilot/results/latest.json).
+
+## Platform limits observed
+
+GitHub returned `Feature not available for user-owned private repositories` when `actions/attest` ran in the private consumer repository. `DELIVERY_GATE_ATTEST` is therefore `false` there, and the `Attest receipt` step is intentionally skipped. The public control repository proves the real GitHub OIDC and custom-predicate attestation path.
+
+GitHub also returned HTTP 403 with `Upgrade to GitHub Pro or make this repository public to enable this feature` for both branch-protection and repository-ruleset APIs on the private consumer repository. Consequently `Host-owned acceptance` cannot be enforced as a required merge check on the current account plan. A successful or failed check is still evidence, but it is not merge enforcement.
+
+The public control repository supports branch protection but its `main` branch was unprotected at the time of this snapshot. Production adoption must protect both the control plane and the consumer workflow, use an immutable control ref, and enforce the verifier check through a GitHub plan or repository ownership model that supports those controls.
