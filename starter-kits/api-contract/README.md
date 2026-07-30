@@ -24,3 +24,7 @@ calibration/CHECKLIST.md      Reference/negative calibration procedure
 ```
 
 Keep the control files in this directory maintainer-owned. The candidate repository should not be able to edit or replace them in the verification job.
+
+## Validation
+
+The kit was reused for the [Versioned Document Agent Pilot](../../docs/REAL_VERSIONED_DOCUMENT_AGENT_PILOT.md). Its 212-line, eight-group contract accepted an independent reference and rejected a planted public-test false green, then a clean-room Agent passed public, protected, and GitHub checks without a repair round. Core derivation and calibration took 305 seconds; the conservative setup-to-Agent-ready measure was 554 seconds.

@@ -120,6 +120,8 @@ That loopback limitation now has a tested Codex 0.145.0 beta [local HTTP permiss
 
 New backend tasks can start from the reusable [API Contract Starter Kit](starter-kits/api-contract/README.md). It includes a behavior-first task packet, fail-closed TAP policy and contract skeleton, real-socket HTTP helpers, and reference/negative calibration checklist without carrying over Webhook Inbox business fields.
 
+The first reuse produced a [Real Versioned Document Agent Pilot](docs/REAL_VERSIONED_DOCUMENT_AGENT_PILOT.md). A fresh conditional-request API contract accepted its independent reference, rejected a planted stale-ETag false green, and accepted one clean-room Agent at public 1 / 1 and protected 8 / 8 with no repair round. Core derivation/calibration took 305 seconds, and the real GitHub check passed in [run 30555101927](https://github.com/mojunrubest/versioned-document-pilot/actions/runs/30555101927).
+
 ## GitHub boundary
 
 The included workflow extracts the verifier and contracts from the protected base SHA into `$RUNNER_TEMP`, then points that control-plane verifier at the candidate workspace. It pins GitHub Actions by commit and wraps successful receipts in a GitHub OIDC custom attestation.

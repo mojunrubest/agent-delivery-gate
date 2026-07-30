@@ -107,6 +107,8 @@ Two preceding workflow runs were useful integration calibration, not Agent repai
 
 The next repository varied the task shape rather than repeating UI work. A real isolated Agent implemented a persistent Webhook Inbox HTTP API and passed a nine-group protected contract plus the generated GitHub workflow on its first candidate attempt. The full result is [Real Backend API Agent Pilot](REAL_API_AGENT_PILOT.md). That run also quantified the dominant cost: 3,655 seconds for end-to-end task and contract authoring plus 3,674 seconds for the Agent turn, versus 718 ms for protected execution on GitHub.
 
+The reusable API starter kit was then applied to a Versioned Document service with conditional HTTP requests and optimistic concurrency. Preparation fell to 305 seconds for core derivation/calibration, or 554 seconds including immutable repository and workflow setup. One real Agent passed public 1 / 1, protected 8 / 8, and the GitHub check with zero repair rounds while running real loopback tests inside the restricted permission profile. See [Real Versioned Document Agent Pilot](REAL_VERSIONED_DOCUMENT_AGENT_PILOT.md).
+
 ## Release boundary
 
 Included in v0.1:

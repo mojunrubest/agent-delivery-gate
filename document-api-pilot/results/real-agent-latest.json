@@ -1,0 +1,171 @@
+{
+  "schemaVersion": "1",
+  "recordedAt": "2026-07-30T15:08:00Z",
+  "kind": "real_versioned_document_agent_session",
+  "task": {
+    "name": "Versioned Document API",
+    "shape": "persistent_node_http_api_with_conditional_requests",
+    "candidateRepository": "mojunrubest/versioned-document-pilot",
+    "baselineCommit": "48ab931e781a5d249d85a8c5510f0dda85f28f30",
+    "baselineTree": "dfb9eaf04c631f612200138f4176baeed1a66049",
+    "visibleFiles": [
+      ".github/workflows/agent-delivery-gate.yml",
+      ".gitignore",
+      "ISSUE.md",
+      "README.md",
+      "package.json",
+      "src/server.mjs",
+      "test/public.test.mjs"
+    ],
+    "taskPacketSha256": "d2c5da724877f4bab67fad2f497c835f6ac4fb4f507011440f94797dbeb17904",
+    "publicTestSha256": "3e1b44791c4df3c813faaf468419c1b6c6d326611442bd901908160fffb4ec4a",
+    "workflowSha256": "62969b3463f6ce4346ab42833e918ada904413943538f8bf10dd9f66e619d856",
+    "stubSourceSha256": "58c265017271f3e07e7e4ace6b2f62e5392357941d1b8f85130d6cccd9451769"
+  },
+  "control": {
+    "repository": "mojunrubest/agent-delivery-gate",
+    "ref": "c2b32d7fab5028b04ac124a60d6b8f52edc900dc",
+    "starterKitRef": "7e4de12d995d0475f8c638af5b81d5d2ccb54d98",
+    "policyId": "versioned-documents/http-v1",
+    "policySha256": "2c9d3e8c3fdeb223ee9e8fae06166e8ed52d78452e11d77a699846e7a859a682",
+    "contractTestSha256": "896d906932833a07b8ba28fdfcf3cfe4262f636dfe1a9df8f89d84a13715daf3",
+    "contractTestLines": 212,
+    "contractTestGroups": 8,
+    "derivationAndCalibrationSeconds": 305,
+    "readyForAgentSeconds": 554,
+    "timingNote": "Derivation began at 2026-07-30T14:48:37Z. Reference and negative calibration completed at 14:53:42Z. The Agent thread began at 14:57:50.878Z; the larger ready-for-Agent number also includes the immutable control commit, caller generation, private GitHub repository creation, and clean-room clone.",
+    "calibration": {
+      "reference": {
+        "localCommit": "18ca70774921db59271f69497aa9073e2b476877",
+        "sourceSha256": "a0a8acdc79339aa85ec7eb165667d6bc80206bee94504689d71b214ef55853ac",
+        "publicPassed": 1,
+        "protectedPassed": 8,
+        "protectedCollected": 8,
+        "protectedDurationMs": 212
+      },
+      "negative": {
+        "localCommit": "5224c7d65b5548e4990919a8006da3ee0fcec8d3",
+        "sourceSha256": "85675cf2cb8d816e492e5fc8c43c9eab366a5038585cc970e43a59c08d7bbdbb",
+        "defect": "If-Match presence is accepted without comparing it to the current revision",
+        "publicPassed": 1,
+        "protectedPassed": 6,
+        "protectedFailed": 2,
+        "protectedCollected": 8,
+        "protectedDurationMs": 203,
+        "failedGroups": [
+          "sequential stale and weak entity tags",
+          "concurrent updates against one entity tag"
+        ]
+      },
+      "contractRepairRounds": 0
+    },
+    "reuseComparison": {
+      "previousWebhookAuthoringAndCalibrationSeconds": 3655,
+      "coreDerivationSpeedup": 11.98,
+      "coreDerivationReductionPercent": 91.66,
+      "readyForAgentSpeedup": 6.6,
+      "readyForAgentReductionPercent": 84.84,
+      "comparisonNote": "The 305-second core number is the closest implementation/calibration measure. The 554-second number is the conservative comparison because it also includes repository and immutable workflow preparation. Task complexity is not identical, so this is one observed reuse result rather than a general productivity claim."
+    }
+  },
+  "agent": {
+    "client": "Codex CLI",
+    "clientVersion": "0.145.0",
+    "model": "gpt-5.6-sol",
+    "reasoningEffort": "xhigh",
+    "threadId": "019fb388-211e-73b0-9566-5a8871fa2c62",
+    "ephemeral": true,
+    "startedAt": "2026-07-30T14:57:50.878Z",
+    "endedAt": "2026-07-30T15:04:52Z",
+    "elapsedSeconds": 421,
+    "elapsedTimingNote": "Start is decoded from the UUIDv7 thread ID; end is the final-message file modification timestamp, rounded to one second.",
+    "promptSha256": "118e4f64e31d9089b41303dcdb9b3af25db30ab810ca7d67ed85d22a13eb8e1c",
+    "tokenUsage": {
+      "input": 238443,
+      "cachedInput": 207872,
+      "cacheWriteInput": 0,
+      "output": 15158,
+      "reasoningOutput": 8717
+    },
+    "estimatedCostUsd": null,
+    "costNote": "The configured provider exposed token usage but no billed amount or pricing contract.",
+    "commands": 10,
+    "fileChangeEvents": 2,
+    "webSearches": 0,
+    "sandboxEscalations": 0,
+    "networkProhibitedByPrompt": true,
+    "externalPathsProhibitedByPrompt": true,
+    "testsAndMetadataEditsProhibitedByPrompt": true,
+    "changedFiles": ["src/server.mjs"],
+    "sourceBytes": 10838,
+    "sourceSha256": "70f26108a29c197b2e965f7a3346e68aa2c7e4a78126f3d862ee8bc6bc11dcb4",
+    "candidateCommit": "ed36461caaa365d6e4093e8bf49ed7dc9bdee7dc",
+    "candidateRepairRounds": 0,
+    "visiblePublicTest": { "collected": 1, "passed": 1 },
+    "focusedSelfCheck": "passed without creating persistent test files",
+    "permissionProfile": {
+      "name": "agent-loopback",
+      "sourceRef": "7e4de12d995d0475f8c638af5b81d5d2ccb54d98",
+      "publicSocketTestInsideAgent": "passed",
+      "externalOutboundPolicy": "deny except exact localhost and 127.0.0.1",
+      "filesystemPolicy": "workspace with built-in temporary roots",
+      "finding": "Unlike the previous Webhook Inbox run, the Agent executed the unchanged real-socket public test itself; no in-process workaround was necessary.",
+      "knownCaveat": "On the tested macOS beta implementation, allow_local_binding also permits wildcard listener binding; this is not a hostile-code network boundary."
+    }
+  },
+  "local": {
+    "hostPublic": { "collected": 1, "passed": 1 },
+    "protected": {
+      "runId": "9b9eeda8-acc4-4c04-b23f-a321373de07a",
+      "status": "verified",
+      "repositoryHead": "ed36461caaa365d6e4093e8bf49ed7dc9bdee7dc",
+      "treeDigestBefore": "207e5d3b794677f566426b5a93d725eae49170191bdb7e7860eae9c45abba76a",
+      "treeDigestAfter": "207e5d3b794677f566426b5a93d725eae49170191bdb7e7860eae9c45abba76a",
+      "collected": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "durationMs": 260,
+      "commandSha256": "5d354933c24aaa8217b3017836608430630e8525498c4dc19fb5a17b21546058",
+      "failures": []
+    }
+  },
+  "github": {
+    "pullRequest": "https://github.com/mojunrubest/versioned-document-pilot/pull/1",
+    "branch": "agent/codex-gpt-5-6-sol-doc-01",
+    "candidateHead": "ed36461caaa365d6e4093e8bf49ed7dc9bdee7dc",
+    "mergeHead": "916e2cf597aec41fe069188fb773a044cdcb4109",
+    "mergeSourceSha256": "70f26108a29c197b2e965f7a3346e68aa2c7e4a78126f3d862ee8bc6bc11dcb4",
+    "workflowRun": "https://github.com/mojunrubest/versioned-document-pilot/actions/runs/30555101927",
+    "workflowConclusion": "success",
+    "workflowSeconds": 28,
+    "hostOwnedAcceptanceSeconds": 15,
+    "receipt": {
+      "fileSha256": "0cf410258477ff6075b1fbe0ad19c2670f5e2a3121c28d70ceaf46b825b0ed3a",
+      "runId": "f0dec264-5b42-4679-986c-ebe727eaaa09",
+      "status": "verified",
+      "repositoryHead": "916e2cf597aec41fe069188fb773a044cdcb4109",
+      "treeDigestBefore": "207e5d3b794677f566426b5a93d725eae49170191bdb7e7860eae9c45abba76a",
+      "treeDigestAfter": "207e5d3b794677f566426b5a93d725eae49170191bdb7e7860eae9c45abba76a",
+      "collected": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "executionDurationMs": 506,
+      "policySha256": "2c9d3e8c3fdeb223ee9e8fae06166e8ed52d78452e11d77a699846e7a859a682",
+      "commandSha256": "fa2ad6d876c864471161656365a6a726ddf46681a0b6dae5926c4507e43e0053",
+      "failures": []
+    },
+    "artifact": {
+      "id": 8764428586,
+      "name": "delivery-gate-receipt",
+      "digest": "sha256:6dbcabc83a4d8851e2b195d9c9d8829a962d3dfea5283a290e3feba56cf8ae34",
+      "sizeBytes": 938,
+      "expiresAt": "2026-08-06T15:07:36Z"
+    },
+    "chromium": "skipped_by_configuration",
+    "attestation": "skipped_by_configuration"
+  }
+}
