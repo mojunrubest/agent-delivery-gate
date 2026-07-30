@@ -114,6 +114,8 @@ The resulting product boundary and standard one-Agent path are defined in [Singl
 
 The generated v0.1 workflow was then validated on a private consumer PR against control commit `f52602ba5e03df2b57e8ee5872f967ae25261626`. The final protected Chromium run passed 6 / 6 and preserved a digest-bound receipt artifact; its [machine-readable evidence](browser-pilot/results/single-agent-v0.1.json) also records two workflow calibration findings discovered before the successful run.
 
+A second [Real Backend API Agent Pilot](docs/REAL_API_AGENT_PILOT.md) applied the generated workflow to a different private repository and a persistent Node HTTP task. The frozen Agent source passed the public socket test, the nine-group protected contract, and the real GitHub check on its first candidate attempt. Its [machine-readable evidence](api-pilot/results/real-agent-latest.json) records contract authoring time, Agent tokens, the loopback sandbox limitation, receipts, and artifact digest.
+
 ## GitHub boundary
 
 The included workflow extracts the verifier and contracts from the protected base SHA into `$RUNNER_TEMP`, then points that control-plane verifier at the candidate workspace. It pins GitHub Actions by commit and wraps successful receipts in a GitHub OIDC custom attestation.

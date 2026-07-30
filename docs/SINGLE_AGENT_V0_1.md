@@ -105,6 +105,8 @@ The downloaded receipt was `verified` with 6 / 6 passing tests, no skips or flak
 
 Two preceding workflow runs were useful integration calibration, not Agent repair rounds. The first exposed GitHub's static reusable-workflow permission ceiling: the caller must grant the pinned workflow's maximum permissions even though its candidate-execution job explicitly downgrades to read-only contents. The second exposed an invalid lockfile assumption in `setup-node` caching. Both constraints are now encoded in the generator or reusable workflow and covered by repository tests.
 
+The next repository varied the task shape rather than repeating UI work. A real isolated Agent implemented a persistent Webhook Inbox HTTP API and passed a nine-group protected contract plus the generated GitHub workflow on its first candidate attempt. The full result is [Real Backend API Agent Pilot](REAL_API_AGENT_PILOT.md). That run also quantified the dominant cost: 3,655 seconds for end-to-end task and contract authoring plus 3,674 seconds for the Agent turn, versus 718 ms for protected execution on GitHub.
+
 ## Release boundary
 
 Included in v0.1:

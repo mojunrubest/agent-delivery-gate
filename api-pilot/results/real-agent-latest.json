@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "1",
+  "recordedAt": "2026-07-30T12:06:00Z",
+  "kind": "real_backend_api_agent_session",
+  "task": {
+    "name": "Webhook Inbox",
+    "shape": "persistent_node_http_api",
+    "candidateRepository": "mojunrubest/webhook-inbox-pilot",
+    "baselineCommit": "4565d0b3ee5c4f9ddbebce466e17c985fde6b7bb",
+    "baselineTree": "ccf12b85400fa92291f6a6e2e1c219d0b5a6bfc2",
+    "visibleFiles": [
+      ".gitignore",
+      "ISSUE.md",
+      "README.md",
+      "package.json",
+      "src/server.mjs",
+      "test/public.test.mjs"
+    ],
+    "stubSourceSha256": "eaf5e6bcee61cfd73701c55229cedb64a7ad3ad5bf7e39ed8ffd97862d584299"
+  },
+  "control": {
+    "repository": "mojunrubest/agent-delivery-gate",
+    "ref": "b2880886c5c7c8c43265ceec2f25b76122e4963c",
+    "workflowRun": "https://github.com/mojunrubest/agent-delivery-gate/actions/runs/30536809159",
+    "workflowConclusion": "success",
+    "policyId": "webhook-inbox/http-v1",
+    "policySha256": "4e21a2f843c3726d65d741db0b2d39a195e7b22b8833b29d9abae5947cebfcc3",
+    "contractTestSha256": "1629fcc64866fa97d87f8e50c61682f54d03f5d23a4e6cd723528d94eb783f27",
+    "contractTestLines": 226,
+    "contractTestGroups": 9,
+    "authoringAndCalibrationSeconds": 3655,
+    "authoringTimingNote": "Commit-to-commit wall time from the completed v0.1 evidence commit to the frozen API contract commit; includes task packet, candidate baseline, reference and negative implementations, calibration, local checks, and repository setup.",
+    "calibration": {
+      "referenceFinal": { "publicPassed": 1, "protectedPassed": 9, "protectedCollected": 9 },
+      "negative": {
+        "defect": "conflicting duplicate IDs are always treated as idempotent success",
+        "publicPassed": 1,
+        "protectedPassed": 7,
+        "protectedFailed": 2,
+        "protectedCollected": 9
+      },
+      "contractRepairRounds": 1,
+      "repair": "Separated invalid-event validation from the deliberately oversized-body threshold so one request could not satisfy both classifications."
+    }
+  },
+  "agent": {
+    "client": "Codex CLI",
+    "clientVersion": "0.145.0",
+    "model": "gpt-5.6-sol",
+    "reasoningEffort": "xhigh",
+    "threadId": "019fb2af-93ca-7ca1-9c3e-b01929646659",
+    "ephemeral": true,
+    "promptSha256": "2b80b82d230ed394ea5b5e569e0caafe36d2a65bf9d87d318df6329b1fd1528b",
+    "elapsedSeconds": 3674,
+    "tokenUsage": {
+      "input": 282353,
+      "cachedInput": 214528,
+      "cacheWriteInput": 0,
+      "output": 17895,
+      "reasoningOutput": 10374
+    },
+    "estimatedCostUsd": null,
+    "costNote": "The configured provider exposed token usage but no billed amount or pricing contract.",
+    "commands": 7,
+    "fileChangeEvents": 4,
+    "webSearches": 0,
+    "networkProhibitedByPrompt": true,
+    "externalPathsProhibitedByPrompt": true,
+    "testsAndMetadataEditsProhibitedByPrompt": true,
+    "changedFiles": ["src/server.mjs"],
+    "sourceSha256": "03ee550930230185657ce981f916e0543b0c78177a34b122e9099d7a5db90f82",
+    "candidateRepairRounds": 0,
+    "sandboxFinding": "Codex workspace-write blocked loopback listen with EPERM. The Agent built an in-process request harness; the host later ran the unchanged public socket test successfully."
+  },
+  "local": {
+    "hostPublic": { "collected": 1, "passed": 1 },
+    "protected": {
+      "runId": "0d22dc4c-bdab-4096-9605-7762d0b0cb17",
+      "status": "verified",
+      "repositoryHead": "6afd838b764f9800349268311d65c87038793135",
+      "treeDigestBefore": "6e315a467548a50563b78814ca8117f5583f06c7c04e44ab50eabdd7ebac052e",
+      "treeDigestAfter": "6e315a467548a50563b78814ca8117f5583f06c7c04e44ab50eabdd7ebac052e",
+      "collected": 9,
+      "passed": 9,
+      "failed": 0,
+      "durationMs": 261,
+      "failures": []
+    },
+    "excludedHostPreflight": {
+      "count": 1,
+      "reason": "The isolated clone lacked local Git author identity, so the host freeze commit failed and the verifier rejected the dirty tree before executing the candidate command. The exact source blob was unchanged before the valid run."
+    }
+  },
+  "github": {
+    "pullRequest": "https://github.com/mojunrubest/webhook-inbox-pilot/pull/1",
+    "branch": "agent/codex-gpt-5-6-sol-api-01",
+    "candidateHead": "fdb1f247bb1978af6320e08cdebe414608deea2e",
+    "workflowRun": "https://github.com/mojunrubest/webhook-inbox-pilot/actions/runs/30541074678",
+    "workflowConclusion": "success",
+    "hostOwnedAcceptanceSeconds": 13,
+    "receipt": {
+      "runId": "5f57dba9-0306-4834-8a8a-9a5cc68110f1",
+      "status": "verified",
+      "repositoryHead": "e8809457a3421dcb19c7caf1188f4e85e0b126b6",
+      "treeDigestBefore": "b9ded345a0cb0793d06509f7b45c756920b55cfa53a71a6fdee5064c1005d60c",
+      "treeDigestAfter": "b9ded345a0cb0793d06509f7b45c756920b55cfa53a71a6fdee5064c1005d60c",
+      "collected": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "executionDurationMs": 718,
+      "commandSha256": "fafce36572571fd4b14fc164fdac5fe02f8eecc8253948654f1925637f0f0dba",
+      "failures": []
+    },
+    "artifact": {
+      "id": 8758698006,
+      "name": "delivery-gate-receipt",
+      "digest": "sha256:b9e9dfbcae7628a7683dcaba0d1fe99961945ed19a5f885447cb7b06af036d74",
+      "sizeBytes": 936,
+      "expiresAt": "2026-08-06T12:05:06Z"
+    },
+    "chromium": "skipped_by_configuration",
+    "attestation": "skipped_by_configuration"
+  }
+}
