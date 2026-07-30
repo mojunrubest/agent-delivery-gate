@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-delivery-gate.dev/schema/delivery-receipt-v1.json",
+  "title": "Delivery Receipt",
+  "type": "object",
+  "required": ["schema_version", "run_id", "status", "policy", "repository", "execution", "tests", "artifacts", "failures"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "run_id": { "type": "string", "format": "uuid" },
+    "status": { "enum": ["verified", "unverified", "blocked"] },
+    "policy": {
+      "type": "object",
+      "required": ["id", "path", "sha256"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      },
+      "additionalProperties": false
+    },
+    "repository": {
+      "type": "object",
+      "required": ["root", "head", "tree_digest_before", "tree_digest_after", "dirty_before", "dirty_after"],
+      "properties": {
+        "root": { "type": ["string", "null"] },
+        "head": { "type": ["string", "null"] },
+        "tree_digest_before": { "oneOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] },
+        "tree_digest_after": { "oneOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] },
+        "dirty_before": { "type": "array", "items": { "type": "string" } },
+        "dirty_after": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "execution": {
+      "type": "object",
+      "required": ["command", "command_sha256", "cwd", "started_at", "ended_at", "duration_ms", "exit_code", "signal", "timed_out", "launch_error", "stdout", "stderr", "report"],
+      "properties": {
+        "command": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "command_sha256": { "$ref": "#/$defs/sha256" },
+        "cwd": { "type": "string" },
+        "started_at": { "type": "string", "format": "date-time" },
+        "ended_at": { "type": "string", "format": "date-time" },
+        "duration_ms": { "type": "integer", "minimum": 0 },
+        "exit_code": { "type": ["integer", "null"] },
+        "signal": { "type": ["string", "null"] },
+        "timed_out": { "type": "boolean" },
+        "launch_error": { "type": ["string", "null"] },
+        "stdout": { "$ref": "#/$defs/fileEvidence" },
+        "stderr": { "$ref": "#/$defs/fileEvidence" },
+        "report": { "oneOf": [{ "$ref": "#/$defs/fileEvidence" }, { "type": "null" }] }
+      },
+      "additionalProperties": false
+    },
+    "tests": { "oneOf": [{ "$ref": "#/$defs/testCounts" }, { "type": "null" }] },
+    "artifacts": { "type": "array", "items": { "$ref": "#/$defs/fileEvidence" } },
+    "failures": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "fileEvidence": {
+      "type": "object",
+      "required": ["path", "sha256", "bytes"],
+      "properties": {
+        "path": { "type": "string" },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "bytes": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "testCounts": {
+      "type": "object",
+      "required": ["collected", "passed", "failed", "skipped", "flaky"],
+      "properties": {
+        "collected": { "type": "integer", "minimum": 0 },
+        "passed": { "type": "integer", "minimum": 0 },
+        "failed": { "type": "integer", "minimum": 0 },
+        "skipped": { "type": "integer", "minimum": 0 },
+        "flaky": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

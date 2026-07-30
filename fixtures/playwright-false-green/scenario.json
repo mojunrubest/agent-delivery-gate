@@ -1,0 +1,8 @@
+{
+  "id": "playwright-screenshot-with-failed-dom-assertion",
+  "expectedDelivery": "invalid",
+  "agentClaim": "verified",
+  "cooperativeReceipt": "verified",
+  "canonicalOutcome": "unverified",
+  "reason": "The screenshot is real, but the required post-click DOM state is false."
+}

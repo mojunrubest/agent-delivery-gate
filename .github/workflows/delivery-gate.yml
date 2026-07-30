@@ -1,0 +1,76 @@
+name: Delivery Gate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Host-owned acceptance
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    env:
+      CONTROL_DIR: ${{ runner.temp }}/delivery-gate-control
+      CONTROL_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Materialize protected control plane
+        run: |
+          mkdir -p "$CONTROL_DIR"
+          git archive "$CONTROL_SHA" -- package.json package-lock.json tsconfig.json src delivery-gate.json delivery-gate.e2e.json | tar -x -C "$CONTROL_DIR"
+          npm ci --ignore-scripts --prefix "$CONTROL_DIR"
+          npm run build --prefix "$CONTROL_DIR"
+
+      - name: Prepare candidate workspace
+        run: |
+          npm ci --ignore-scripts
+          npm run build
+          npx playwright install --with-deps chromium
+
+      - name: Verify unit contract
+        run: |
+          node "$CONTROL_DIR/dist/src/cli.js" verify \
+            --config "$CONTROL_DIR/delivery-gate.json" \
+            --workspace "$GITHUB_WORKSPACE" \
+            --receipt "$GITHUB_WORKSPACE/.delivery-gate/unit-receipt.json"
+
+      - name: Verify browser contract
+        run: |
+          node "$CONTROL_DIR/dist/src/cli.js" verify \
+            --config "$CONTROL_DIR/delivery-gate.e2e.json" \
+            --workspace "$GITHUB_WORKSPACE" \
+            --receipt "$GITHUB_WORKSPACE/.delivery-gate/e2e-receipt.json"
+
+      - name: Attest unit receipt
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        uses: actions/attest@508db95dd578ae2727ebd6217d5ba78e4fbda05d # v4.2.1
+        with:
+          subject-path: .delivery-gate/unit-receipt.json
+          predicate-type: https://agent-delivery-gate.dev/predicate/delivery-receipt/v1
+          predicate-path: .delivery-gate/unit-receipt.json
+
+      - name: Attest browser receipt
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        uses: actions/attest@508db95dd578ae2727ebd6217d5ba78e4fbda05d # v4.2.1
+        with:
+          subject-path: .delivery-gate/e2e-receipt.json
+          predicate-type: https://agent-delivery-gate.dev/predicate/delivery-receipt/v1
+          predicate-path: .delivery-gate/e2e-receipt.json

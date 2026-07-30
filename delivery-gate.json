@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1",
+  "policyId": "agent-delivery-gate/unit-v1",
+  "command": [
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "dist/test/adapters.test.js",
+    "dist/test/verifier.test.js"
+  ],
+  "timeoutMs": 120000,
+  "maxOutputBytes": 10485760,
+  "result": {
+    "adapter": "tap",
+    "source": "stdout"
+  },
+  "requireCleanTree": true,
+  "requireTests": true,
+  "requirePassingTest": true
+}

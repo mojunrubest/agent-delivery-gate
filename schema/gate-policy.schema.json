@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-delivery-gate.dev/schema/gate-policy-v1.json",
+  "title": "Agent Delivery Gate Policy",
+  "type": "object",
+  "required": ["schemaVersion", "policyId", "command", "result"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "policyId": { "type": "string", "minLength": 1 },
+    "command": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "cwd": { "type": "string", "minLength": 1 },
+    "timeoutMs": { "type": "integer", "minimum": 1 },
+    "maxOutputBytes": { "type": "integer", "minimum": 1 },
+    "result": {
+      "type": "object",
+      "required": ["adapter", "source"],
+      "properties": {
+        "adapter": { "enum": ["tap", "junit", "playwright-json"] },
+        "source": { "enum": ["stdout", "file"] }
+      },
+      "additionalProperties": false
+    },
+    "requireCleanTree": { "type": "boolean" },
+    "requireTests": { "type": "boolean" },
+    "requirePassingTest": { "type": "boolean" },
+    "allowFlaky": { "type": "boolean" },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "required": { "type": "boolean" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

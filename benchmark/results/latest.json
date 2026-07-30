@@ -1,0 +1,351 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-07-30T06:23:04.425Z",
+  "scenarios": [
+    {
+      "id": "valid-node-test",
+      "expected": "valid",
+      "native": true,
+      "cooperative": true,
+      "atomic": {
+        "accepted": true,
+        "status": "verified",
+        "failures": [],
+        "tests": {
+          "collected": 1,
+          "passed": 1,
+          "failed": 0,
+          "skipped": 0,
+          "flaky": 0
+        }
+      }
+    },
+    {
+      "id": "valid-vitest-junit",
+      "expected": "valid",
+      "native": true,
+      "cooperative": true,
+      "atomic": {
+        "accepted": true,
+        "status": "verified",
+        "failures": [],
+        "tests": {
+          "collected": 1,
+          "passed": 1,
+          "failed": 0,
+          "skipped": 0,
+          "flaky": 0
+        }
+      }
+    },
+    {
+      "id": "valid-pass-with-skip",
+      "expected": "valid",
+      "native": true,
+      "cooperative": true,
+      "atomic": {
+        "accepted": true,
+        "status": "verified",
+        "failures": [],
+        "tests": {
+          "collected": 2,
+          "passed": 1,
+          "failed": 0,
+          "skipped": 1,
+          "flaky": 0
+        }
+      }
+    },
+    {
+      "id": "valid-required-artifact",
+      "expected": "valid",
+      "native": true,
+      "cooperative": true,
+      "atomic": {
+        "accepted": true,
+        "status": "verified",
+        "failures": [],
+        "tests": {
+          "collected": 1,
+          "passed": 1,
+          "failed": 0,
+          "skipped": 0,
+          "flaky": 0
+        }
+      }
+    },
+    {
+      "id": "valid-playwright-flow",
+      "expected": "valid",
+      "native": true,
+      "cooperative": true,
+      "atomic": {
+        "accepted": true,
+        "status": "verified",
+        "failures": [],
+        "tests": {
+          "collected": 1,
+          "passed": 1,
+          "failed": 0,
+          "skipped": 0,
+          "flaky": 0
+        }
+      }
+    },
+    {
+      "id": "test-failure",
+      "expected": "invalid",
+      "native": true,
+      "cooperative": true,
+      "atomic": {
+        "accepted": false,
+        "status": "unverified",
+        "failures": [
+          "command_exit_nonzero:1",
+          "tests_failed:1",
+          "no_passing_test"
+        ],
+        "tests": {
+          "collected": 1,
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "flaky": 0
+        }
+      }
+    },
+    {
+      "id": "nonzero-with-green-output",
+      "expected": "invalid",
+      "native": true,
+      "cooperative": true,
+      "atomic": {
+        "accepted": false,
+        "status": "unverified",
+        "failures": [
+          "command_exit_nonzero:9"
+        ],
+        "tests": {
+          "collected": 1,
+          "passed": 1,
+          "failed": 0,
+          "skipped": 0,
+          "flaky": 0
+        }
+      }
+    },
+    {
+      "id": "zero-tests",
+      "expected": "invalid",
+      "native": true,
+      "cooperative": true,
+      "atomic": {
+        "accepted": false,
+        "status": "unverified",
+        "failures": [
+          "no_tests_collected"
+        ],
+        "tests": {
+          "collected": 0,
+          "passed": 0,
+          "failed": 0,
+          "skipped": 0,
+          "flaky": 0
+        }
+      }
+    },
+    {
+      "id": "all-tests-skipped",
+      "expected": "invalid",
+      "native": true,
+      "cooperative": true,
+      "atomic": {
+        "accepted": false,
+        "status": "unverified",
+        "failures": [
+          "all_tests_skipped"
+        ],
+        "tests": {
+          "collected": 1,
+          "passed": 0,
+          "failed": 0,
+          "skipped": 1,
+          "flaky": 0
+        }
+      }
+    },
+    {
+      "id": "narrow-test-hides-suite-failure",
+      "expected": "invalid",
+      "native": true,
+      "cooperative": true,
+      "atomic": {
+        "accepted": false,
+        "status": "unverified",
+        "failures": [
+          "command_exit_nonzero:1",
+          "tests_failed:1",
+          "no_passing_test"
+        ],
+        "tests": {
+          "collected": 1,
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "flaky": 0
+        }
+      }
+    },
+    {
+      "id": "stale-report-not-current-run",
+      "expected": "invalid",
+      "native": true,
+      "cooperative": true,
+      "atomic": {
+        "accepted": false,
+        "status": "blocked",
+        "failures": [
+          "result_unavailable"
+        ],
+        "tests": null
+      }
+    },
+    {
+      "id": "interrupted-run-reuses-old-inode",
+      "expected": "invalid",
+      "native": true,
+      "cooperative": true,
+      "atomic": {
+        "accepted": false,
+        "status": "blocked",
+        "failures": [
+          "result_unavailable"
+        ],
+        "tests": null
+      }
+    },
+    {
+      "id": "forged-cooperative-receipt",
+      "expected": "invalid",
+      "native": true,
+      "cooperative": true,
+      "atomic": {
+        "accepted": false,
+        "status": "unverified",
+        "failures": [
+          "command_exit_nonzero:1",
+          "tests_failed:1",
+          "no_passing_test"
+        ],
+        "tests": {
+          "collected": 1,
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "flaky": 0
+        }
+      }
+    },
+    {
+      "id": "dirty-tree-after-test",
+      "expected": "invalid",
+      "native": true,
+      "cooperative": true,
+      "atomic": {
+        "accepted": false,
+        "status": "unverified",
+        "failures": [
+          "worktree_changed_during_verification",
+          "worktree_dirty_after"
+        ],
+        "tests": {
+          "collected": 1,
+          "passed": 1,
+          "failed": 0,
+          "skipped": 0,
+          "flaky": 0
+        }
+      }
+    },
+    {
+      "id": "test-timeout",
+      "expected": "invalid",
+      "native": true,
+      "cooperative": false,
+      "atomic": {
+        "accepted": false,
+        "status": "blocked",
+        "failures": [
+          "command_timeout"
+        ],
+        "tests": null
+      }
+    },
+    {
+      "id": "runner-crash",
+      "expected": "invalid",
+      "native": true,
+      "cooperative": false,
+      "atomic": {
+        "accepted": false,
+        "status": "blocked",
+        "failures": [
+          "command_terminated_by_signal"
+        ],
+        "tests": null
+      }
+    },
+    {
+      "id": "required-artifact-missing",
+      "expected": "invalid",
+      "native": true,
+      "cooperative": true,
+      "atomic": {
+        "accepted": false,
+        "status": "unverified",
+        "failures": [
+          "required_artifact_unavailable"
+        ],
+        "tests": {
+          "collected": 1,
+          "passed": 1,
+          "failed": 0,
+          "skipped": 0,
+          "flaky": 0
+        }
+      }
+    },
+    {
+      "id": "playwright-screenshot-failed-dom",
+      "expected": "invalid",
+      "native": true,
+      "cooperative": true,
+      "atomic": {
+        "accepted": false,
+        "status": "unverified",
+        "failures": [
+          "command_exit_nonzero:1",
+          "tests_failed:1",
+          "no_passing_test"
+        ],
+        "tests": {
+          "collected": 1,
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "flaky": 0
+        }
+      }
+    }
+  ],
+  "metrics": {
+    "planted_invalid": 13,
+    "planted_valid": 5,
+    "native_false_greens": 13,
+    "cooperative_false_greens": 11,
+    "atomic_false_greens": 0,
+    "false_green_reduction_vs_native": 1,
+    "atomic_correct_task_acceptance": 1
+  },
+  "decision": "GO"
+}

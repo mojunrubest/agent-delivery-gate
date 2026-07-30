@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "1",
+  "policyId": "agent-delivery-gate/playwright-e2e-v1",
+  "command": [
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "dist/e2e/playwright-gate.test.js"
+  ],
+  "timeoutMs": 120000,
+  "maxOutputBytes": 10485760,
+  "result": {
+    "adapter": "tap",
+    "source": "stdout"
+  },
+  "requireCleanTree": true,
+  "requireTests": true,
+  "requirePassingTest": true
+}
