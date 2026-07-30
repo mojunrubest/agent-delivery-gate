@@ -78,7 +78,7 @@ node /path/to/agent-delivery-gate/dist/src/cli.js init \
   --browser
 ```
 
-The command creates `.github/workflows/agent-delivery-gate.yml` and refuses to overwrite an existing workflow. Use `--attest` only where GitHub attestations are available; signing runs in a separate job after verification. Use `--force` only for an intentional maintainer-owned regeneration.
+The command creates `.github/workflows/agent-delivery-gate.yml` and refuses to overwrite an existing workflow. GitHub requires the caller to declare the reusable workflow's maximum permissions before any jobs start. The pinned reusable workflow then downgrades candidate verification to read-only contents and grants OIDC only to its separate post-verification job. Use `--attest` only where GitHub attestations are available; use `--force` only for an intentional maintainer-owned regeneration.
 
 Commit the generated workflow to the protected base branch. After its first run, select the stable host-owned acceptance job as a required check. Protect both the caller workflow and `CODEOWNERS` from Agent-only approval.
 

@@ -11,21 +11,21 @@ const valid = {
   policyPath: "contracts/web-v1.json",
 };
 
-test("renders an immutable least-privilege consumer workflow", () => {
+test("renders an immutable consumer workflow with the reusable workflow's maximum permissions", () => {
   const workflow = renderConsumerWorkflow(valid);
   assert.match(workflow, /uses: example\/delivery-control\/.github\/workflows\/reusable-delivery-gate\.yml@0123456789abcdef0123456789abcdef01234567/);
   assert.match(workflow, /install-chromium: false/);
   assert.match(workflow, /attest: false/);
-  assert.doesNotMatch(workflow, /id-token: write/);
+  assert.match(workflow, /id-token: write/);
+  assert.match(workflow, /attestations: write/);
+  assert.match(workflow, /explicitly downgrades candidate verification to contents: read/);
   assert.doesNotMatch(workflow, /\$\{\{/);
 });
 
-test("adds browser setup and signing permissions only when requested", () => {
+test("enables browser setup and attestation only when requested", () => {
   const workflow = renderConsumerWorkflow({ ...valid, installChromium: true, attest: true });
   assert.match(workflow, /install-chromium: true/);
   assert.match(workflow, /attest: true/);
-  assert.match(workflow, /id-token: write/);
-  assert.match(workflow, /attestations: write/);
 });
 
 test("rejects mutable refs and escaping policy paths", () => {
