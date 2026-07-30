@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-07-30T08:33:03Z",
+  "kind": "real_agent_sessions",
+  "agent": {
+    "client": "Codex CLI",
+    "client_version": "0.145.0",
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "xhigh",
+    "ephemeral_sessions": true
+  },
+  "protocol": {
+    "sample_count": 3,
+    "first_attempt_only": true,
+    "task_source_commit": "c9ced4e01e80f2e4b6846e9854073b75b439af32",
+    "sanitized_baseline_tree": "1933ac06f145d94782ab8e7e52dc38fa7b960ef7",
+    "stub_source_sha256": "ec18c919a4596defdc53bf9469c2af7f795d42beefa12abc6cc469db2883a07a",
+    "visible_files": [
+      "ISSUE.md",
+      "package.json",
+      "src/checkout.mjs",
+      "test/public.test.mjs"
+    ],
+    "prompt_sha256": "d06516cd10824e270c6a4e006ab343f4b360593c6f44bc629ca0f72e266f761d",
+    "network_prohibited_by_prompt": true,
+    "web_search_enabled": false,
+    "prior_task_git_history_present": false,
+    "control_repository_present_in_workspace": false,
+    "candidate_fixtures_present_in_workspace": false,
+    "tests_edit_prohibited_by_prompt": true,
+    "policy_id": "checkout-pilot/canonical-v1",
+    "policy_sha256": "0f608804fa1fc5af8d05b81eb840259863709f62c46ae311f04c15d92ef491bc"
+  },
+  "summary": {
+    "public_tests_passed": 3,
+    "local_protected_contracts_passed": 3,
+    "github_host_owned_checks_passed": 3,
+    "first_attempts_accepted": 3,
+    "first_attempt_acceptance_rate": 1,
+    "repair_rounds": 0,
+    "elapsed_seconds_total": 661,
+    "elapsed_seconds_mean": 220.33,
+    "token_usage": {
+      "input": 334123,
+      "cached_input": 228608,
+      "output": 17697,
+      "reasoning_output": 9014
+    },
+    "estimated_cost_usd": null,
+    "cost_note": "The configured custom provider did not expose billed cost or a pricing contract; token usage is recorded without inventing a dollar estimate."
+  },
+  "runs": [
+    {
+      "id": "codex-gpt-5-6-sol-01",
+      "thread_id": "019fb218-88e6-7a00-b525-f94a51225c0e",
+      "elapsed_seconds": 205,
+      "token_usage": {
+        "input": 114636,
+        "cached_input": 79104,
+        "output": 5427,
+        "reasoning_output": 2534
+      },
+      "source_sha256": "e7af7aa0c4e342d4a2169cb80b32a674071293166ee8a75b7bd5c090a5e06b7e",
+      "local_receipt": {
+        "run_id": "22583403-0acc-4c72-9988-f70d44c3b092",
+        "status": "verified",
+        "tests_collected": 13,
+        "tests_passed": 13
+      },
+      "github": {
+        "branch": "agent/codex-gpt-5-6-sol-01",
+        "head": "3b8553f17d8bde7e4e157191ac47405c7b11245c",
+        "pull_request": 21,
+        "workflow_run": 30526941845,
+        "check": "Host-owned acceptance",
+        "conclusion": "success"
+      }
+    },
+    {
+      "id": "codex-gpt-5-6-sol-02",
+      "thread_id": "019fb21c-25dc-7ef0-b501-d2b8cd523b43",
+      "elapsed_seconds": 198,
+      "token_usage": {
+        "input": 83739,
+        "cached_input": 41984,
+        "output": 5211,
+        "reasoning_output": 2761
+      },
+      "source_sha256": "24528c52a741f6ad58b4895a305a3cb7866b68312590a04d49ed629707006898",
+      "local_receipt": {
+        "run_id": "0bfa4129-7e31-4e6b-bb6d-13497e11b163",
+        "status": "verified",
+        "tests_collected": 13,
+        "tests_passed": 13
+      },
+      "github": {
+        "branch": "agent/codex-gpt-5-6-sol-02",
+        "head": "ad13d3037225e420e1182e2f715564a3aa05face",
+        "pull_request": 23,
+        "workflow_run": 30527015337,
+        "check": "Host-owned acceptance",
+        "conclusion": "success"
+      }
+    },
+    {
+      "id": "codex-gpt-5-6-sol-03",
+      "thread_id": "019fb21f-5c88-73d3-a76d-4ed481acb2e2",
+      "elapsed_seconds": 258,
+      "token_usage": {
+        "input": 135748,
+        "cached_input": 107520,
+        "output": 7059,
+        "reasoning_output": 3719
+      },
+      "source_sha256": "148c45aab299c47fb2080ae952b0cd04773c3a43b0c029fcbd4714df3d78d60f",
+      "local_receipt": {
+        "run_id": "b389770c-7554-403a-8ca2-cee595bbb545",
+        "status": "verified",
+        "tests_collected": 13,
+        "tests_passed": 13
+      },
+      "github": {
+        "branch": "agent/codex-gpt-5-6-sol-03",
+        "head": "dcac7dd58da94f9d897878097999fbff672b0ee7",
+        "pull_request": 22,
+        "workflow_run": 30526962404,
+        "check": "Host-owned acceptance",
+        "conclusion": "success"
+      }
+    }
+  ],
+  "excluded_preflight": {
+    "count": 1,
+    "reason": "The first repository snapshot exposed scripts/candidates.mjs, which contains deterministic fixture implementations. The session was terminated before reading that file or editing code and is not included in the sample."
+  }
+}
