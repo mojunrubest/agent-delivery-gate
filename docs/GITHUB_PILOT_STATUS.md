@@ -11,6 +11,6 @@
 
 ## External step still required
 
-This machine currently has no `gh` executable, `GITHUB_TOKEN`, `GH_TOKEN`, configured Git remote, or GitHub repository identity. Consequently it cannot create repositories, configure branch protection or repository variables, open pull requests, request GitHub OIDC credentials, or verify a live Sigstore attestation.
+GitHub CLI `2.96.0` is installed, but this machine has no authenticated GitHub host, `GITHUB_TOKEN`, `GH_TOKEN`, configured Git remote, or GitHub repository identity. Consequently it cannot create repositories, configure branch protection or repository variables, open pull requests, request GitHub OIDC credentials, or verify a live Sigstore attestation.
 
 That missing execution is an authorization boundary, not a verifier implementation task. The exact setup sequence is documented in the pilot repository at `docs/PILOT_SETUP.md`.
