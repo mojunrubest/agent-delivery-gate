@@ -78,7 +78,6 @@ jobs:
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: ${{ inputs.node-version }}
-          cache: npm
 
       - name: Build protected verifier
         run: |
@@ -91,7 +90,9 @@ jobs:
 
       - name: Prepare candidate
         run: |
-          npm ci --ignore-scripts
+          if [[ -f package-lock.json || -f npm-shrinkwrap.json ]]; then
+            npm ci --ignore-scripts
+          fi
           npm run build --if-present
 
       - name: Execute protected acceptance contract

@@ -63,7 +63,7 @@ The workflow file and `CODEOWNERS` are governance surfaces. Require maintainer r
 
 ## Standard setup
 
-Requirements: Node 22+, a candidate repository, a separately maintained control repository, and a full 40-character control commit SHA.
+Requirements: Node 22+, a candidate repository, a separately maintained control repository, and a full 40-character control commit SHA. Candidates with npm dependencies must commit `package-lock.json` or `npm-shrinkwrap.json`; dependency-free candidates do not need a lockfile.
 
 Build this repository, then generate the caller inside the candidate repository:
 

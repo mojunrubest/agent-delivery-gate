@@ -16,7 +16,9 @@ test("reusable workflow isolates verification from signing authority", async () 
   const attestJob = workflow.slice(attestStart);
   assert.doesNotMatch(verifyJob, /id-token: write/);
   assert.doesNotMatch(verifyJob, /attestations: write/);
+  assert.doesNotMatch(verifyJob, /cache: npm/);
   assert.match(verifyJob, /Check out candidate[\s\S]*persist-credentials: false/);
+  assert.match(verifyJob, /if \[\[ -f package-lock\.json \|\| -f npm-shrinkwrap\.json \]\]/);
   assert.match(verifyJob, /--receipt "\$RUNNER_TEMP\/delivery-gate\/receipt\.json"/);
   assert.match(verifyJob, /Preserve delivery receipt[\s\S]*if: always\(\)/);
   assert.match(verifyJob, /\^\[0-9a-f\]\{40\}\$/);
