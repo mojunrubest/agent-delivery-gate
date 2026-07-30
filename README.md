@@ -96,6 +96,8 @@ Run it with `npm run pilot -- --repo ../delivery-gate-pilot`. The machine-readab
 
 A separate clean-room pilot then ran 3 real Codex CLI sessions with no fixture implementations, control tests, other branches, or prior task history visible. All 3 independently passed the protected contract and their real GitHub checks on the first attempt. See [Real Agent Pilot](docs/REAL_AGENT_PILOT.md) and its [machine-readable evidence](pilot/results/real-agent-latest.json).
 
+The follow-up [Real Browser Agent Pilot](docs/REAL_BROWSER_AGENT_PILOT.md) ran 2 isolated multi-file UI sessions against a protected six-test Playwright contract with required desktop and mobile screenshots. Both passed GitHub on their first candidate attempt. The calibration process also exposed why acceptance contracts must test observable behavior instead of reference-specific markup or wording.
+
 ## GitHub boundary
 
 The included workflow extracts the verifier and contracts from the protected base SHA into `$RUNNER_TEMP`, then points that control-plane verifier at the candidate workspace. It pins GitHub Actions by commit and wraps successful receipts in a GitHub OIDC custom attestation.

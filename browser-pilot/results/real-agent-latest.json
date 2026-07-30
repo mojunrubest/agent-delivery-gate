@@ -1,0 +1,137 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-07-30T09:22:42Z",
+  "kind": "real_agent_browser_sessions",
+  "agent": {
+    "client": "Codex CLI",
+    "client_version": "0.145.0",
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "xhigh",
+    "ephemeral_sessions": true
+  },
+  "protocol": {
+    "sample_count": 2,
+    "first_attempt_only": true,
+    "task_source_repository": "mojunrubest/incident-desk-pilot",
+    "task_source_commit": "75bd55e6965e2dec375473804c5bb4f38b1e2624",
+    "sanitized_baseline_tree": "2a399ec5e93c4a669a005333a2e31d6da5310122",
+    "stub_store_sha256": "d60d72752ed906f174f22b6823d282b6224cfc8fb209d79cf2e9045de4aecb87",
+    "visible_files": [
+      "ISSUE.md",
+      "index.html",
+      "package.json",
+      "src/app.mjs",
+      "src/store.mjs",
+      "styles.css",
+      "test/public.test.mjs"
+    ],
+    "prompt_sha256": "f734a40646bdc60e015abd11ac0fdabf8eb8510a03e665ed32d967fef87aca3c",
+    "network_prohibited_by_prompt": true,
+    "web_search_enabled": false,
+    "prior_task_git_history_present": false,
+    "control_repository_present_in_workspace": false,
+    "reference_implementation_present_in_workspace": false,
+    "negative_fixture_present_in_workspace": false,
+    "tests_edit_prohibited_by_prompt": true
+  },
+  "control": {
+    "commit": "65d479ef65f4388fb48390db4d06334fa1ee5abd",
+    "policy_id": "incident-desk/browser-v1",
+    "policy_sha256": "32b934f0dce14331bf63a1debc7255fee9b8dab8ab532677cd5d94c426ce581e",
+    "test_sha256": "040fe3bd7564aed0c51e1a7520d43edc0effe9041640553bbac974f52b44b592",
+    "reference_calibration": {
+      "run_id": "441beb03-08cd-45ac-9f7d-9b75ea8beda1",
+      "status": "verified",
+      "tests_passed": 6
+    },
+    "negative_calibration": {
+      "mutation": "Search matches only ID and title, omitting owner, severity, and status",
+      "public_test_passed": true,
+      "run_id": "4dddf858-70d1-4317-acc4-5faf58956e4b",
+      "status": "unverified",
+      "tests_passed": 5,
+      "tests_failed": 1
+    },
+    "calibration_corrections": [
+      "Allowed a legitimate duplicate status label in the details region instead of requiring one text node.",
+      "Validated that transition activity grows and persists instead of requiring reference-specific wording."
+    ]
+  },
+  "summary": {
+    "public_tests_passed": 2,
+    "local_protected_contracts_passed": 2,
+    "github_host_owned_checks_passed": 2,
+    "first_attempts_accepted": 2,
+    "first_attempt_acceptance_rate": 1,
+    "candidate_repair_rounds": 0,
+    "contract_calibration_corrections": 2,
+    "elapsed_seconds_total": 873,
+    "elapsed_seconds_mean": 436.5,
+    "token_usage": {
+      "input": 442860,
+      "cached_input": 361728,
+      "output": 34846,
+      "reasoning_output": 9544
+    },
+    "estimated_cost_usd": null,
+    "cost_note": "The configured custom provider did not expose billed cost or a pricing contract; token usage is recorded without inventing a dollar estimate."
+  },
+  "runs": [
+    {
+      "id": "codex-gpt-5-6-sol-browser-01",
+      "thread_id": "019fb23e-ccc0-71b3-ba2f-471a3a580c55",
+      "elapsed_seconds": 473,
+      "token_usage": {
+        "input": 206387,
+        "cached_input": 160768,
+        "output": 18503,
+        "reasoning_output": 6266
+      },
+      "published_tree": "ff8593743301cb81e21d9b2e0d8583874f5cb8c4",
+      "local_receipt": {
+        "run_id": "e40e4787-8813-4c01-9755-5fb02833db4f",
+        "status": "verified",
+        "tests_collected": 6,
+        "tests_passed": 6,
+        "desktop_screenshot_sha256": "4172e7921185d33040170a56e1dffbc4af227bc170289d3cb31cb270cad4b72c",
+        "mobile_screenshot_sha256": "b1817a9b56170c6d1a43f15718d1a96a055a145701b1fdb9552370ddab15a1ab"
+      },
+      "github": {
+        "branch": "agent/codex-gpt-5-6-sol-browser-01",
+        "head": "d417a093b2bffc2a42d99b914ba22b0e6a2b34ff",
+        "pull_request": 1,
+        "workflow_run": 30530287560,
+        "check": "Host-owned browser acceptance",
+        "conclusion": "success"
+      }
+    },
+    {
+      "id": "codex-gpt-5-6-sol-browser-02",
+      "thread_id": "019fb249-48bf-7661-acc7-7c6627877801",
+      "elapsed_seconds": 400,
+      "token_usage": {
+        "input": 236473,
+        "cached_input": 200960,
+        "output": 16343,
+        "reasoning_output": 3278
+      },
+      "published_tree": "a6f17c490b043130484f66fafd86e8a1a142c1aa",
+      "local_receipt": {
+        "run_id": "8192dda6-1f06-4ef2-9e4a-1129f838c22d",
+        "status": "verified",
+        "tests_collected": 6,
+        "tests_passed": 6,
+        "desktop_screenshot_sha256": "ee5a4c384fc50c35b4f94d0f45266f15e1c0cf2739a23e83ad8c0bf27ee9b28e",
+        "mobile_screenshot_sha256": "2fb786e5cdafd3bbb186ee34ae06d20a33df78b017815c0574450814e54e07e3"
+      },
+      "github": {
+        "branch": "agent/codex-gpt-5-6-sol-browser-02",
+        "head": "134b31aaed82745a5683b8c36f62e51ba7b21038",
+        "pull_request": 2,
+        "workflow_run": 30530292888,
+        "check": "Host-owned browser acceptance",
+        "conclusion": "success"
+      }
+    }
+  ]
+}

@@ -21,6 +21,8 @@ The matching local evidence is [pilot/results/latest.json](../pilot/results/late
 
 Three later pull requests contain output from independent real Codex CLI sessions rather than planted fixtures. PRs 21, 22, and 23 all passed `Host-owned acceptance` on their first attempt. Their isolated protocol, token usage, source hashes, local receipts, and workflow links are recorded in [Real Agent Pilot](REAL_AGENT_PILOT.md).
 
+The private `incident-desk-pilot` repository adds a multi-file browser task. Two real Codex sessions passed public store tests, six protected Chromium interactions, required desktop/mobile screenshots, and GitHub checks on their first candidate attempt. See [Real Browser Agent Pilot](REAL_BROWSER_AGENT_PILOT.md).
+
 ## Platform limits observed
 
 GitHub returned `Feature not available for user-owned private repositories` when `actions/attest` ran in the private consumer repository. `DELIVERY_GATE_ATTEST` is therefore `false` there, and the `Attest receipt` step is intentionally skipped. The public control repository proves the real GitHub OIDC and custom-predicate attestation path.
