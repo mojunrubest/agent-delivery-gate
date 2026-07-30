@@ -34,7 +34,6 @@ jobs:
       attestations: write
     env:
       CONTROL_CHECKOUT: .delivery-gate/control-checkout
-      CONTROL_DIR: ${{ runner.temp }}/delivery-gate-control
     steps:
       - name: Check out candidate
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -50,7 +49,7 @@ jobs:
           persist-credentials: false
 
       - name: Move control plane out of candidate workspace
-        run: mv "$CONTROL_CHECKOUT" "$CONTROL_DIR"
+        run: mv "$CONTROL_CHECKOUT" "$RUNNER_TEMP/delivery-gate-control"
 
       - name: Set up Node
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -60,8 +59,8 @@ jobs:
 
       - name: Build protected verifier
         run: |
-          npm ci --ignore-scripts --prefix "$CONTROL_DIR"
-          npm run build --prefix "$CONTROL_DIR"
+          npm ci --ignore-scripts --prefix "$RUNNER_TEMP/delivery-gate-control"
+          npm run build --prefix "$RUNNER_TEMP/delivery-gate-control"
 
       - name: Prepare candidate
         run: |
@@ -70,8 +69,8 @@ jobs:
 
       - name: Execute protected acceptance contract
         run: |
-          node "$CONTROL_DIR/dist/src/cli.js" verify \
-            --config "$CONTROL_DIR/${{ inputs.policy-path }}" \
+          node "$RUNNER_TEMP/delivery-gate-control/dist/src/cli.js" verify \
+            --config "$RUNNER_TEMP/delivery-gate-control/${{ inputs.policy-path }}" \
             --workspace "$GITHUB_WORKSPACE" \
             --receipt "$GITHUB_WORKSPACE/.delivery-gate/receipt.json"
 

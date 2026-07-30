@@ -18,7 +18,6 @@ jobs:
       id-token: write
       attestations: write
     env:
-      CONTROL_DIR: ${{ runner.temp }}/delivery-gate-control
       CONTROL_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
     steps:
       - name: Check out candidate
@@ -34,10 +33,10 @@ jobs:
 
       - name: Materialize protected control plane
         run: |
-          mkdir -p "$CONTROL_DIR"
-          git archive "$CONTROL_SHA" -- package.json package-lock.json tsconfig.json src delivery-gate.json delivery-gate.e2e.json | tar -x -C "$CONTROL_DIR"
-          npm ci --ignore-scripts --prefix "$CONTROL_DIR"
-          npm run build --prefix "$CONTROL_DIR"
+          mkdir -p "$RUNNER_TEMP/delivery-gate-control"
+          git archive "$CONTROL_SHA" -- package.json package-lock.json tsconfig.json src delivery-gate.json delivery-gate.e2e.json | tar -x -C "$RUNNER_TEMP/delivery-gate-control"
+          npm ci --ignore-scripts --prefix "$RUNNER_TEMP/delivery-gate-control"
+          npm run build --prefix "$RUNNER_TEMP/delivery-gate-control"
 
       - name: Prepare candidate workspace
         run: |
@@ -47,15 +46,15 @@ jobs:
 
       - name: Verify unit contract
         run: |
-          node "$CONTROL_DIR/dist/src/cli.js" verify \
-            --config "$CONTROL_DIR/delivery-gate.json" \
+          node "$RUNNER_TEMP/delivery-gate-control/dist/src/cli.js" verify \
+            --config "$RUNNER_TEMP/delivery-gate-control/delivery-gate.json" \
             --workspace "$GITHUB_WORKSPACE" \
             --receipt "$GITHUB_WORKSPACE/.delivery-gate/unit-receipt.json"
 
       - name: Verify browser contract
         run: |
-          node "$CONTROL_DIR/dist/src/cli.js" verify \
-            --config "$CONTROL_DIR/delivery-gate.e2e.json" \
+          node "$RUNNER_TEMP/delivery-gate-control/dist/src/cli.js" verify \
+            --config "$RUNNER_TEMP/delivery-gate-control/delivery-gate.e2e.json" \
             --workspace "$GITHUB_WORKSPACE" \
             --receipt "$GITHUB_WORKSPACE/.delivery-gate/e2e-receipt.json"
 
