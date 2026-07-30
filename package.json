@@ -6,11 +6,18 @@
   "bin": {
     "delivery-gate": "dist/src/cli.js"
   },
+  "files": [
+    "dist/src",
+    "schema",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && node --test --test-reporter=tap dist/test/*.test.js",
     "test:e2e": "npm run build && node --test --test-reporter=tap dist/e2e/*.test.js",
     "benchmark": "npm run build && node dist/benchmark/run.js",
+    "pilot": "npm run build && node dist/pilot/run.js",
+    "prepack": "npm run build",
     "verify:self": "npm run build && node dist/src/cli.js verify --config delivery-gate.json"
   },
   "dependencies": {

@@ -1,0 +1,22 @@
+[
+  { "id": "valid-01", "expectedValid": true },
+  { "id": "valid-02", "expectedValid": true },
+  { "id": "valid-03", "expectedValid": true },
+  { "id": "valid-04", "expectedValid": true },
+  { "id": "valid-05", "expectedValid": true },
+  { "id": "invalid-01-no-quantity", "expectedValid": false },
+  { "id": "invalid-02-percent-scale", "expectedValid": false },
+  { "id": "invalid-03-fixed-underflow", "expectedValid": false },
+  { "id": "invalid-04-tax-before-discount", "expectedValid": false },
+  { "id": "invalid-05-tax-nontaxable", "expectedValid": false },
+  { "id": "invalid-06-shipping-subtotal", "expectedValid": false },
+  { "id": "invalid-07-threshold-exclusive", "expectedValid": false },
+  { "id": "invalid-08-tax-floor", "expectedValid": false },
+  { "id": "invalid-09-empty-shipping", "expectedValid": false },
+  { "id": "invalid-10-no-validation", "expectedValid": false },
+  { "id": "invalid-11-unbounded-quantity", "expectedValid": false },
+  { "id": "invalid-12-percent-rounding", "expectedValid": false },
+  { "id": "invalid-13-ignore-fixed", "expectedValid": false },
+  { "id": "invalid-14-mutates-input", "expectedValid": false },
+  { "id": "invalid-15-tax-shipping", "expectedValid": false }
+]

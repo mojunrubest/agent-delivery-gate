@@ -1,0 +1,84 @@
+name: Reusable Delivery Gate
+
+on:
+  workflow_call:
+    inputs:
+      control-repository:
+        description: Repository containing the protected verifier and contract
+        required: true
+        type: string
+      control-ref:
+        description: Immutable control-plane tag or commit
+        required: true
+        type: string
+      policy-path:
+        description: Policy path inside the control repository
+        required: true
+        type: string
+      node-version:
+        description: Candidate Node version
+        required: false
+        default: "24"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Host-owned acceptance
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    env:
+      CONTROL_CHECKOUT: .delivery-gate/control-checkout
+      CONTROL_DIR: ${{ runner.temp }}/delivery-gate-control
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Check out protected control plane
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ inputs.control-repository }}
+          ref: ${{ inputs.control-ref }}
+          path: ${{ env.CONTROL_CHECKOUT }}
+          persist-credentials: false
+
+      - name: Move control plane out of candidate workspace
+        run: mv "$CONTROL_CHECKOUT" "$CONTROL_DIR"
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: npm
+
+      - name: Build protected verifier
+        run: |
+          npm ci --ignore-scripts --prefix "$CONTROL_DIR"
+          npm run build --prefix "$CONTROL_DIR"
+
+      - name: Prepare candidate
+        run: |
+          npm ci --ignore-scripts
+          npm run build --if-present
+
+      - name: Execute protected acceptance contract
+        run: |
+          node "$CONTROL_DIR/dist/src/cli.js" verify \
+            --config "$CONTROL_DIR/${{ inputs.policy-path }}" \
+            --workspace "$GITHUB_WORKSPACE" \
+            --receipt "$GITHUB_WORKSPACE/.delivery-gate/receipt.json"
+
+      - name: Attest receipt
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        uses: actions/attest@508db95dd578ae2727ebd6217d5ba78e4fbda05d # v4.2.1
+        with:
+          subject-path: .delivery-gate/receipt.json
+          predicate-type: https://agent-delivery-gate.dev/predicate/delivery-receipt/v1
+          predicate-path: .delivery-gate/receipt.json

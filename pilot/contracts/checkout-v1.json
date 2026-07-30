@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "1",
+  "policyId": "checkout-pilot/canonical-v1",
+  "command": [
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "{policyDir}/../tests/checkout.contract.test.mjs"
+  ],
+  "timeoutMs": 30000,
+  "maxOutputBytes": 1048576,
+  "result": {
+    "adapter": "tap",
+    "source": "stdout"
+  },
+  "requireCleanTree": true,
+  "requireTests": true,
+  "requirePassingTest": true
+}

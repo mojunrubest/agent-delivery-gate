@@ -11,3 +11,5 @@
 9. Move candidate execution into a stronger sandbox before expanding the threat model to actively malicious code.
 
 The included workflow demonstrates the base-SHA control-plane pattern for this repository. Fork pull requests still run the required verifier, but custom attestation is skipped when GitHub does not grant repository attestation authority.
+
+For a separate consumer repository, call or mirror `.github/workflows/reusable-delivery-gate.yml` at an immutable control commit. The checkout pilot under `../delivery-gate-pilot` demonstrates repository-variable configuration when the final GitHub owner and repository name are not yet available.

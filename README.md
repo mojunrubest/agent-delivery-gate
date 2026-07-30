@@ -47,7 +47,7 @@ Exit codes are `0` for `verified`, `1` for `unverified`, and `2` for `blocked` o
 
 ## Contract
 
-The command is an argv array and is launched with `shell: false`. File-based reporters must put `{report}` in one argv entry; every occurrence is replaced by a new, previously nonexistent path. `{artifactDir}` points to the current run's evidence directory.
+The command is an argv array and is launched with `shell: false`. File-based reporters must put `{report}` in one argv entry; every occurrence is replaced by a new, previously nonexistent path. `{artifactDir}` points to the current run's evidence directory. `{policyDir}` resolves to the protected contract directory, allowing canonical tests to live outside the candidate repository.
 
 ```json
 {
@@ -81,8 +81,23 @@ The complete formats are in [gate-policy.schema.json](schema/gate-policy.schema.
 
 The structured output is [benchmark/results/latest.json](benchmark/results/latest.json). The browser cases launch real Chromium; one verifies a correct flow, and one verifies that a real screenshot cannot override a failed DOM interaction assertion.
 
+## Cross-repository pilot
+
+The checkout pilot keeps its canonical policy and 13 contract tests in this control repository. The candidate repository contains only the implementation and one narrow public smoke test. The verifier expands `{policyDir}` so protected tests execute against the candidate working directory without being copied into it.
+
+The local pilot evaluates 20 candidate Git branches:
+
+| Mode | False greens | Correct tasks accepted |
+| --- | ---: | ---: |
+| Candidate-owned public test | 15 / 15 | 5 / 5 |
+| External atomic verifier | 0 / 15 | 5 / 5 |
+
+Run it with `npm run pilot -- --repo ../delivery-gate-pilot`. The machine-readable evidence is [pilot/results/latest.json](pilot/results/latest.json). These are deterministic candidate simulations for exercising the control boundary, not 20 claimed external Agent sessions.
+
 ## GitHub boundary
 
 The included workflow extracts the verifier and contracts from the protected base SHA into `$RUNNER_TEMP`, then points that control-plane verifier at the candidate workspace. It pins GitHub Actions by commit and wraps successful receipts in a GitHub OIDC custom attestation.
+
+[`reusable-delivery-gate.yml`](.github/workflows/reusable-delivery-gate.yml) is the cross-repository variant. It checks out an immutable control ref, moves it outside the candidate workspace, builds the protected verifier, and executes the selected control-owned policy.
 
 For adoption, make `Host-owned acceptance` a required status check and protect changes to the workflow, policies, verifier package pin, and canonical tests with CODEOWNERS. Organization-wide use should move the control plane into a separately owned reusable workflow or repository.

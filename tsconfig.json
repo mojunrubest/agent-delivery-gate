@@ -13,5 +13,5 @@
     "declaration": true,
     "sourceMap": true
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "e2e/**/*.ts", "benchmark/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "e2e/**/*.ts", "benchmark/**/*.ts", "pilot/**/*.ts"]
 }

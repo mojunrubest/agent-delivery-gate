@@ -22,8 +22,12 @@ function replaceToken(value: string, token: string, replacement: string): string
   return value.split(token).join(replacement);
 }
 
-function materialize(value: string, reportPath: string, artifactDir: string): string {
-  return replaceToken(replaceToken(value, "{report}", reportPath), "{artifactDir}", artifactDir);
+function materialize(value: string, reportPath: string, artifactDir: string, policyDirectory: string): string {
+  return replaceToken(
+    replaceToken(replaceToken(value, "{report}", reportPath), "{artifactDir}", artifactDir),
+    "{policyDir}",
+    policyDirectory,
+  );
 }
 
 function killProcessTree(child: ReturnType<typeof spawn>, signal: NodeJS.Signals): void {
@@ -141,7 +145,7 @@ export async function verifyDelivery(options: { configPath: string; receiptPath?
   const stderrPath = resolve(runDirectory, "stderr.log");
   await mkdir(artifactDirectory, { recursive: true });
 
-  const command = policy.command.map((part) => materialize(part, reportPath, artifactDirectory));
+  const command = policy.command.map((part) => materialize(part, reportPath, artifactDirectory, policyDirectory));
   const started = Date.now();
   const startedAt = new Date(started).toISOString();
   let before: GitSnapshot | null = null;
@@ -216,7 +220,7 @@ export async function verifyDelivery(options: { configPath: string; receiptPath?
 
   const artifacts: FileEvidence[] = [];
   for (const rule of policy.artifacts ?? []) {
-    const materialized = materialize(rule.path, reportPath, artifactDirectory);
+    const materialized = materialize(rule.path, reportPath, artifactDirectory, policyDirectory);
     const artifactPath = isAbsolute(materialized) ? resolve(materialized) : resolve(cwd, materialized);
     if (before && !inside(before.root, artifactPath) && !inside(runDirectory, artifactPath)) {
       blocked.push(`artifact_outside_allowed_roots:${rule.path}`);

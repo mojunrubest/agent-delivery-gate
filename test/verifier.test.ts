@@ -130,3 +130,15 @@ test("can load a protected policy outside the candidate workspace", async () => 
   assert.equal(receipt.repository.root, await realpath(root));
   assert.equal(receipt.policy.path, controlPolicy);
 });
+
+test("materializes canonical tests from the protected policy directory", async () => {
+  const root = await createRepository(tapPolicy([process.execPath, "unused.mjs"]), { "candidate.txt": "expected\n" });
+  const control = await mkdtemp(resolve(tmpdir(), "delivery-gate-control-"));
+  const policy = tapPolicy([process.execPath, "{policyDir}/canonical.mjs"]);
+  const controlPolicy = resolve(control, "policy.json");
+  await writeFile(controlPolicy, `${JSON.stringify(policy)}\n`);
+  await writeFile(resolve(control, "canonical.mjs"), 'import { readFileSync } from "node:fs"; const ok = readFileSync("candidate.txt", "utf8") === "expected\\n"; console.log(`TAP version 13\\n${ok ? "ok" : "not ok"} 1 - external contract\\n1..1`); if (!ok) process.exitCode = 1;\n');
+  const { receipt } = await verifyDelivery({ configPath: controlPolicy, workspace: root });
+  assert.equal(receipt.status, "verified");
+  assert.equal(receipt.execution.command[1], resolve(control, "canonical.mjs"));
+});
