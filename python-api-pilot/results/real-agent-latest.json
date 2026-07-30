@@ -1,0 +1,186 @@
+{
+  "schemaVersion": "1",
+  "recordedAt": "2026-07-30T16:27:22Z",
+  "kind": "real_cross_runtime_python_api_agent_session",
+  "task": {
+    "name": "Content-Addressed Blob API",
+    "shape": "persistent_python_standard_library_http_process",
+    "candidateRepository": "mojunrubest/blob-store-python-pilot",
+    "baselineCommit": "6720780df7c09a4ac7966a1537512152f081bc9b",
+    "baselineTree": "20a4497ebf7c65bc884de89f32035521b4403f19",
+    "visibleFiles": [
+      ".github/workflows/agent-delivery-gate.yml",
+      ".gitignore",
+      "ISSUE.md",
+      "README.md",
+      "pyproject.toml",
+      "src/blob_server.py",
+      "test/test_public.py"
+    ],
+    "taskPacketSha256": "51c9beb80d14a1c0e29627555649461b18988b1cc20e5b59d29e579490ecf4c0",
+    "publicTestSha256": "9e1a0e47d181378a98410b2fc036d7762793a435be80aeef840bbd7b87bc9163",
+    "initialWorkflowSha256": "7aba6993e53882df849a2afb24e250e2577be95c4d1add984c3a5dfdde89a652",
+    "finalWorkflowSha256": "8f8ad8a69491d837f72bb07e07b0984d998e2f248269394765a922083c8e694a",
+    "stubSourceSha256": "8cff27660164a1f2d0a5a83ea459eb6172eb13e7705394a0f969b72773085846"
+  },
+  "control": {
+    "repository": "mojunrubest/agent-delivery-gate",
+    "ref": "015f335a527ebb01c0fcb4ee944e9bdf053efc7a",
+    "contractAuthoringRef": "c122e0ee35029e44592140f84e36eca5cd9110af",
+    "starterKitRef": "7e4de12d995d0475f8c638af5b81d5d2ccb54d98",
+    "policyId": "content-blob/python-http-v1",
+    "policySha256": "ca85dee011c7573a6dbf8d80a05909270e6bc6d698b8b83f5f4b8b2a198da49b",
+    "contractTestSha256": "e00be2d163da42ac1c8d940cc86a0f51ab6c157e8405253a46b89697743680f4",
+    "contractTestLines": 200,
+    "contractTestGroups": 8,
+    "processHelperSha256": "00e6cc1e688c9c30dfc47f3c4644b51606002b96e9f4660499b6e41c9f975eac",
+    "derivationAndCalibrationSeconds": 561,
+    "readyForAgentSeconds": 813,
+    "timingNote": "Derivation began at 2026-07-30T15:51:43Z. Reference and negative calibration completed at 16:01:04Z. The Agent thread began at 16:05:16.099Z; ready-for-Agent time also includes the immutable control commit, caller generation, private repository creation, and clean-room clone.",
+    "calibration": {
+      "reference": {
+        "localCommit": "10c65125c6f9b1c77953209b22dccacc1cc7b13d",
+        "sourceSha256": "3a7e59d594c5f8559fd6e2fa6d0888bd5964f7928d2104f10e97c039658f5aa4",
+        "publicPassed": 1,
+        "protectedRunId": "6b86786d-ed94-43fa-9dbc-b5a783888108",
+        "protectedPassed": 8,
+        "protectedCollected": 8,
+        "protectedDurationMs": 4763
+      },
+      "negative": {
+        "localCommit": "7f3cad2a657d611881128fb987385e31ff72f620",
+        "sourceSha256": "e4b463b21ac8b6520e5bab82b2789a833c04dab977c6546ba239e43a2dbc9fa3",
+        "defect": "Range is ignored and the full blob is always returned with status 200",
+        "publicPassed": 1,
+        "protectedRunId": "a46cd402-1f21-4ffa-951c-2128eca621e0",
+        "protectedPassed": 7,
+        "protectedFailed": 1,
+        "protectedCollected": 8,
+        "protectedDurationMs": 4791,
+        "failedGroups": ["serves inclusive byte ranges and rejects invalid ranges"]
+      },
+      "contractRepairRounds": 1,
+      "referenceRepairRounds": 1,
+      "repairs": [
+        "Renamed a contract-local process variable that shadowed global process and triggered a temporal-dead-zone failure.",
+        "Closed rejected PUT connections in the reference so unread bodies could not poison the next keep-alive request."
+      ]
+    }
+  },
+  "agent": {
+    "client": "Codex CLI",
+    "clientVersion": "0.145.0",
+    "model": "gpt-5.6-sol",
+    "reasoningEffort": "xhigh",
+    "threadId": "019fb3c5-dac3-7143-803b-56f63a1ef386",
+    "ephemeral": true,
+    "startedAt": "2026-07-30T16:05:16.099Z",
+    "endedAt": "2026-07-30T16:15:53Z",
+    "elapsedSeconds": 637,
+    "elapsedTimingNote": "Start is decoded from the UUIDv7 thread ID; end is the final-message file modification timestamp, rounded to one second.",
+    "promptSha256": "1956d1ca25db9e5c33934ba658fcbc64617484f5aa0fc38c11d14f2ee86b5835",
+    "tokenUsage": {
+      "input": 431795,
+      "cachedInput": 383232,
+      "cacheWriteInput": 0,
+      "output": 26010,
+      "reasoningOutput": 15635
+    },
+    "estimatedCostUsd": null,
+    "costNote": "The configured provider exposed token usage but no billed amount or pricing contract.",
+    "commands": 26,
+    "fileChangeEvents": 4,
+    "webSearches": 0,
+    "sandboxEscalations": 0,
+    "networkProhibitedByPrompt": true,
+    "externalPathsProhibitedByPrompt": true,
+    "testsAndMetadataEditsProhibitedByPrompt": true,
+    "changedFiles": ["src/blob_server.py"],
+    "sourceBytes": 18020,
+    "sourceLines": 535,
+    "sourceSha256": "32481bb9cc6950157f569e7200791b24745747f6d40b3de8a944c69978445709",
+    "sourceCommit": "da505327f1d598b128f72139d1d146d1ae878207",
+    "candidateRepairRounds": 0,
+    "visiblePublicTest": { "collected": 1, "passed": 1 },
+    "focusedSelfCheck": "passed concurrency, restart, range, cache, validation, chunked upload, cleanup, compile, import, and diff checks without persistent test files",
+    "permissionProfile": {
+      "name": "agent-loopback",
+      "sourceRef": "7e4de12d995d0475f8c638af5b81d5d2ccb54d98",
+      "publicSocketTestInsideAgent": "passed",
+      "externalOutboundPolicy": "deny except exact localhost and 127.0.0.1",
+      "filesystemPolicy": "workspace with built-in temporary roots",
+      "finding": "The Agent adapted a denied external Python bytecode-cache write by disabling bytecode and placing temporary test storage under src, while the unchanged real-socket public test passed.",
+      "knownCaveat": "On the tested macOS beta implementation, allow_local_binding also permits wildcard listener binding; this is not a hostile-code network boundary."
+    }
+  },
+  "local": {
+    "hostPublic": { "collected": 1, "passed": 1 },
+    "protected": {
+      "runId": "82f5f38d-379d-4fa9-9686-c6eb555004fb",
+      "status": "verified",
+      "repositoryHead": "da505327f1d598b128f72139d1d146d1ae878207",
+      "treeDigestBefore": "832a35147fa82e0c5a59bb1dc753df05ba98af6e8ff0ec3b4c91f25a8272ac36",
+      "treeDigestAfter": "832a35147fa82e0c5a59bb1dc753df05ba98af6e8ff0ec3b4c91f25a8272ac36",
+      "collected": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "durationMs": 2373,
+      "commandSha256": "750bd482468e57f0ae092a406fd73699df59ad1079bf07b84f60cb31f5e1eacd",
+      "failures": []
+    }
+  },
+  "github": {
+    "pullRequest": "https://github.com/mojunrubest/blob-store-python-pilot/pull/1",
+    "branch": "agent/codex-gpt-5-6-sol-python-01",
+    "agentSourceCommit": "da505327f1d598b128f72139d1d146d1ae878207",
+    "integrationHead": "09a447099c0e214a4fa4e1d8bd9dd2b6c1168ff2",
+    "baseHead": "3e105d0093efff20eb28acff0db0446c9b8b9f02",
+    "mergeHead": "442effec6d613b0f299608744ef03fe15e1281fd",
+    "mergeSourceSha256": "32481bb9cc6950157f569e7200791b24745747f6d40b3de8a944c69978445709",
+    "workflowAttempts": 3,
+    "workflowCalibrationFindings": [
+      {
+        "run": "https://github.com/mojunrubest/blob-store-python-pilot/actions/runs/30560823056",
+        "finding": "Prepare candidate unconditionally ran npm build in a pure Python repository, so the protected contract never started.",
+        "resolution": "Control commit 015f335a527ebb01c0fcb4ee944e9bdf053efc7a guards candidate npm preparation with package.json presence."
+      },
+      {
+        "run": "https://github.com/mojunrubest/blob-store-python-pilot/actions/runs/30561118914",
+        "finding": "Updating the base workflow pin and reopening the existing PR still reused its stale merge ref and old control SHA.",
+        "resolution": "A maintainer-only merge of updated main synchronized the workflow pin without changing Agent source or the PR implementation diff."
+      }
+    ],
+    "workflowRun": "https://github.com/mojunrubest/blob-store-python-pilot/actions/runs/30561322261",
+    "workflowConclusion": "success",
+    "workflowSeconds": 27,
+    "hostOwnedAcceptanceSeconds": 21,
+    "receipt": {
+      "fileSha256": "eafebfcf2e59a0caba21a36ec1752861d4fbd95ff18142b5f1b67b7314e27277",
+      "runId": "b0db29c7-21d5-4c53-b9ee-0857ca31cce8",
+      "status": "verified",
+      "repositoryHead": "442effec6d613b0f299608744ef03fe15e1281fd",
+      "treeDigestBefore": "eac31a21402b3aa97babad21fd7efd26e8221fc62ecc7e87518f05641428bbb8",
+      "treeDigestAfter": "eac31a21402b3aa97babad21fd7efd26e8221fc62ecc7e87518f05641428bbb8",
+      "collected": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "executionDurationMs": 2766,
+      "policySha256": "ca85dee011c7573a6dbf8d80a05909270e6bc6d698b8b83f5f4b8b2a198da49b",
+      "commandSha256": "2b4d0647d0893cf07c5d50247f9e9a920fd1e5c9d05a88ea04bf4343553d080d",
+      "failures": []
+    },
+    "artifact": {
+      "id": 8766987044,
+      "name": "delivery-gate-receipt",
+      "digest": "sha256:703d9f021397f85340ae4beab9dad1a73a48d9ce6be2b9012f6b326837f3a6d6",
+      "sizeBytes": 945,
+      "expiresAt": "2026-08-06T16:24:58Z"
+    },
+    "chromium": "skipped_by_configuration",
+    "attestation": "skipped_by_configuration"
+  }
+}

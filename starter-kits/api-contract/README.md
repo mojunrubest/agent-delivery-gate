@@ -29,3 +29,5 @@ Keep the control files in this directory maintainer-owned. The candidate reposit
 ## Validation
 
 The kit was reused for the [Versioned Document Agent Pilot](../../docs/REAL_VERSIONED_DOCUMENT_AGENT_PILOT.md). Its 212-line, eight-group contract accepted an independent reference and rejected a planted public-test false green, then a clean-room Agent passed public, protected, and GitHub checks without a repair round. Core derivation and calibration took 305 seconds; the conservative setup-to-Agent-ready measure was 554 seconds.
+
+The [Cross-Runtime Agent Pilot](../../docs/REAL_CROSS_RUNTIME_AGENT_PILOT.md) then kept its eight-group protected contract in Node while launching a Python 3.9 standard-library candidate through `process-http-helpers.mjs`. The independent reference and clean-room Agent passed 8 / 8, while a Range false green passed public 1 / 1 and failed one of eight protected groups. The exercise also removed an unconditional npm preparation step from the reusable workflow.

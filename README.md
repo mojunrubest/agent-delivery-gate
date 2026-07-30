@@ -122,6 +122,8 @@ New backend tasks can start from the reusable [API Contract Starter Kit](starter
 
 The first reuse produced a [Real Versioned Document Agent Pilot](docs/REAL_VERSIONED_DOCUMENT_AGENT_PILOT.md). A fresh conditional-request API contract accepted its independent reference, rejected a planted stale-ETag false green, and accepted one clean-room Agent at public 1 / 1 and protected 8 / 8 with no repair round. Core derivation/calibration took 305 seconds, and the real GitHub check passed in [run 30555101927](https://github.com/mojunrubest/versioned-document-pilot/actions/runs/30555101927).
 
+The next [Real Cross-Runtime Agent Pilot](docs/REAL_CROSS_RUNTIME_AGENT_PILOT.md) kept the protected contract in Node while the candidate was a Python 3.9 standard-library process. One clean-room Agent passed public 1 / 1 and protected 8 / 8 without a candidate repair; [run 30561322261](https://github.com/mojunrubest/blob-store-python-pilot/actions/runs/30561322261) also exposed and removed a Node-only candidate-preparation assumption from the reusable workflow.
+
 ## GitHub boundary
 
 The included workflow extracts the verifier and contracts from the protected base SHA into `$RUNNER_TEMP`, then points that control-plane verifier at the candidate workspace. It pins GitHub Actions by commit and wraps successful receipts in a GitHub OIDC custom attestation.
