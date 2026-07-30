@@ -8,7 +8,7 @@ on:
         required: true
         type: string
       control-ref:
-        description: Immutable control-plane tag or commit
+        description: Full 40-character control-plane commit SHA
         required: true
         type: string
       policy-path:
@@ -20,6 +20,16 @@ on:
         required: false
         default: "24"
         type: string
+      install-chromium:
+        description: Install the protected control plane's Chromium build
+        required: false
+        default: false
+        type: boolean
+      attest:
+        description: Attest a successful receipt in a separate post-verification job
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -30,15 +40,28 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write
-      attestations: write
     env:
       CONTROL_CHECKOUT: .delivery-gate/control-checkout
     steps:
+      - name: Validate immutable control inputs
+        shell: bash
+        env:
+          CONTROL_REPOSITORY: ${{ inputs.control-repository }}
+          CONTROL_REF: ${{ inputs.control-ref }}
+          POLICY_PATH: ${{ inputs.policy-path }}
+        run: |
+          [[ "$CONTROL_REPOSITORY" =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ ]]
+          [[ "$CONTROL_REF" =~ ^[0-9a-f]{40}$ ]]
+          [[ -n "$POLICY_PATH" && "$POLICY_PATH" != /* ]]
+          case "/$POLICY_PATH/" in
+            *"/../"*) exit 1 ;;
+          esac
+
       - name: Check out candidate
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Check out protected control plane
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -62,6 +85,10 @@ jobs:
           npm ci --ignore-scripts --prefix "$RUNNER_TEMP/delivery-gate-control"
           npm run build --prefix "$RUNNER_TEMP/delivery-gate-control"
 
+      - name: Install protected Chromium
+        if: inputs.install-chromium
+        run: node "$RUNNER_TEMP/delivery-gate-control/node_modules/playwright/cli.js" install --with-deps chromium
+
       - name: Prepare candidate
         run: |
           npm ci --ignore-scripts
@@ -72,12 +99,36 @@ jobs:
           node "$RUNNER_TEMP/delivery-gate-control/dist/src/cli.js" verify \
             --config "$RUNNER_TEMP/delivery-gate-control/${{ inputs.policy-path }}" \
             --workspace "$GITHUB_WORKSPACE" \
-            --receipt "$GITHUB_WORKSPACE/.delivery-gate/receipt.json"
+            --receipt "$RUNNER_TEMP/delivery-gate/receipt.json"
+
+      - name: Preserve delivery receipt
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: delivery-gate-receipt
+          path: ${{ runner.temp }}/delivery-gate/receipt.json
+          if-no-files-found: ignore
+          retention-days: 7
+
+  attest:
+    name: Attest verified receipt
+    if: inputs.attest && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    steps:
+      - name: Download verified receipt
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: delivery-gate-receipt
+          path: .delivery-gate-attestation
 
       - name: Attest receipt
-        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         uses: actions/attest@508db95dd578ae2727ebd6217d5ba78e4fbda05d # v4.2.1
         with:
-          subject-path: .delivery-gate/receipt.json
+          subject-path: .delivery-gate-attestation/receipt.json
           predicate-type: https://agent-delivery-gate.dev/predicate/delivery-receipt/v1
-          predicate-path: .delivery-gate/receipt.json
+          predicate-path: .delivery-gate-attestation/receipt.json
