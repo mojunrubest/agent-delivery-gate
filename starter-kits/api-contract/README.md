@@ -20,6 +20,7 @@ task-packet.md                 Agent-visible execution contract template
 contracts/api-v1.json         Host-owned Delivery Gate policy
 tests/contract.test.mjs       Deliberately failing protected-test skeleton
 tests/http-helpers.mjs        Reusable real-socket JSON helpers
+tests/process-http-helpers.mjs Cross-runtime process/readiness helper
 calibration/CHECKLIST.md      Reference/negative calibration procedure
 ```
 

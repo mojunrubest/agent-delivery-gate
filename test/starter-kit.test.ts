@@ -48,12 +48,29 @@ test("HTTP starter helper exercises a real loopback JSON request", async (t) => 
   helpers.assertJsonResult(result, { status: 200, body: { ok: true } });
 });
 
+test("process HTTP helper starts and stops a cross-runtime style server", async (t) => {
+  const helpers = await import(pathToFileURL(resolve(kitRoot, "tests/process-http-helpers.mjs")).href) as {
+    startHttpProcess(context: typeof t, options: { command: string[] }): Promise<{ origin: string }>;
+  };
+  const script = [
+    'const http = require("node:http")',
+    'const server = http.createServer((_request, response) => response.end("process-ok"))',
+    'server.listen(0, "127.0.0.1", () => console.log(JSON.stringify({ host: "127.0.0.1", port: server.address().port })))',
+    'process.on("SIGTERM", () => server.close(() => process.exit(0)))',
+  ].join(";");
+  const { origin } = await helpers.startHttpProcess(t, { command: [process.execPath, "-e", script] });
+  const response = await fetch(origin);
+  assert.equal(response.status, 200);
+  assert.equal(await response.text(), "process-ok");
+});
+
 test("starter kit stays business-neutral", async () => {
   const paths = [
     "README.md",
     "task-packet.md",
     "contracts/api-v1.json",
     "tests/http-helpers.mjs",
+    "tests/process-http-helpers.mjs",
     "tests/contract.test.mjs",
     "calibration/CHECKLIST.md",
   ];
