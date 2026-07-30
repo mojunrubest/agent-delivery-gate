@@ -116,6 +116,10 @@ The generated v0.1 workflow was then validated on a private consumer PR against 
 
 A second [Real Backend API Agent Pilot](docs/REAL_API_AGENT_PILOT.md) applied the generated workflow to a different private repository and a persistent Node HTTP task. The frozen Agent source passed the public socket test, the nine-group protected contract, and the real GitHub check on its first candidate attempt. Its [machine-readable evidence](api-pilot/results/real-agent-latest.json) records contract authoring time, Agent tokens, the loopback sandbox limitation, receipts, and artifact digest.
 
+That loopback limitation now has a tested Codex 0.145.0 beta [local HTTP permission profile](docs/CODEX_LOOPBACK_PROFILE.md). It allows workspace writes and real `127.0.0.1` tests while denying public outbound requests and external writes. The accompanying probe also keeps the current macOS wildcard-bind caveat visible instead of treating the beta profile as a hostile-code boundary.
+
+New backend tasks can start from the reusable [API Contract Starter Kit](starter-kits/api-contract/README.md). It includes a behavior-first task packet, fail-closed TAP policy and contract skeleton, real-socket HTTP helpers, and reference/negative calibration checklist without carrying over Webhook Inbox business fields.
+
 ## GitHub boundary
 
 The included workflow extracts the verifier and contracts from the protected base SHA into `$RUNNER_TEMP`, then points that control-plane verifier at the candidate workspace. It pins GitHub Actions by commit and wraps successful receipts in a GitHub OIDC custom attestation.

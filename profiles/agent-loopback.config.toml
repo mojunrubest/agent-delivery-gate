@@ -1,0 +1,26 @@
+# Beta permission profile validated with Codex CLI 0.145.0.
+# Select it through scripts/run-agent-loopback.mjs so this repo-owned layer is
+# loaded without modifying the user's global Codex configuration.
+default_permissions = "agent-loopback"
+
+[features]
+# A permission profile defines network policy but does not start the enforcing
+# proxy by itself. This feature must stay enabled for the domain rules below.
+network_proxy = true
+
+[permissions.agent-loopback]
+description = "Workspace editing with local HTTP tests and no public outbound network."
+extends = ":workspace"
+
+[permissions.agent-loopback.network]
+enabled = true
+# Required for test processes to call listen(). See docs/CODEX_LOOPBACK_PROFILE.md
+# for the macOS wildcard-bind caveat that accompanies this beta switch.
+allow_local_binding = true
+allow_upstream_proxy = false
+enable_socks5 = false
+enable_socks5_udp = false
+
+[permissions.agent-loopback.network.domains]
+"127.0.0.1" = "allow"
+"localhost" = "allow"

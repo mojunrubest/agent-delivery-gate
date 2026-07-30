@@ -15,6 +15,7 @@
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && node --test --test-reporter=tap dist/test/*.test.js",
     "test:e2e": "npm run build && node --test --test-reporter=tap dist/e2e/*.test.js",
+    "test:loopback": "node scripts/probe-agent-loopback.mjs",
     "benchmark": "npm run build && node dist/benchmark/run.js",
     "pilot": "npm run build && node dist/pilot/run.js",
     "prepack": "npm run build",
