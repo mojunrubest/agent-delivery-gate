@@ -7,6 +7,10 @@
     "--test-reporter=tap",
     "{policyDir}/../tests/versioned-documents.contract.test.mjs"
   ],
+  "controlAssets": [
+    "../tests/versioned-documents.contract.test.mjs",
+    "../../starter-kits/api-contract/tests/http-helpers.mjs"
+  ],
   "timeoutMs": 60000,
   "maxOutputBytes": 2097152,
   "result": {

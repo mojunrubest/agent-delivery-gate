@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 import { randomUUID } from "node:crypto";
-import { mkdir, readFile, realpath, rename, stat, writeFile } from "node:fs/promises";
+import { lstat, mkdir, readFile, realpath, rename, stat, writeFile } from "node:fs/promises";
 import { dirname, isAbsolute, relative, resolve, sep } from "node:path";
 import { parseResult } from "./adapters.js";
 import { snapshotGit, type GitSnapshot } from "./git.js";
@@ -118,6 +118,27 @@ async function evidence(path: string): Promise<FileEvidence> {
   return { path, ...hash };
 }
 
+async function controlBundle(
+  policySha256: string,
+  policyDirectory: string,
+  declaredAssets: string[],
+  candidateWorkspace: string,
+): Promise<{ sha256: string; assets: FileEvidence[] }> {
+  const assets = await Promise.all([...declaredAssets].sort().map(async (declaredPath) => {
+    const absolutePath = resolve(policyDirectory, declaredPath);
+    const stats = await lstat(absolutePath);
+    if (!stats.isFile()) throw new Error(`control asset is not a regular file: ${declaredPath}`);
+    if (inside(candidateWorkspace, await realpath(absolutePath))) {
+      throw new Error(`control asset is inside the candidate workspace: ${declaredPath}`);
+    }
+    return { path: declaredPath, ...await hashFile(absolutePath) };
+  }));
+  return {
+    sha256: sha256(stableJson({ policy_sha256: policySha256, control_assets: assets })),
+    assets,
+  };
+}
+
 function inside(parent: string, candidate: string): boolean {
   const path = relative(parent, candidate);
   return path === "" || (!path.startsWith(`..${sep}`) && path !== "..");
@@ -134,6 +155,7 @@ export async function verifyDelivery(options: { configPath: string; receiptPath?
   const policy = policyDefaults(loaded.policy);
   const policyDirectory = dirname(loaded.absolutePath);
   const workspace = await realpath(resolve(options.workspace ?? policyDirectory));
+  const controlBefore = await controlBundle(loaded.sha256, policyDirectory, policy.controlAssets ?? [], workspace);
   const cwd = await realpath(resolve(workspace, policy.cwd ?? "."));
   if (!inside(workspace, cwd)) throw new Error("policy cwd escapes the candidate workspace");
   const receiptPath = resolve(options.receiptPath ?? resolve(policyDirectory, ".delivery-gate/receipt.json"));
@@ -246,6 +268,14 @@ export async function verifyDelivery(options: { configPath: string; receiptPath?
     }
   }
 
+  try {
+    const policyAfter = await hashFile(loaded.absolutePath);
+    const controlAfter = await controlBundle(policyAfter.sha256, policyDirectory, policy.controlAssets ?? [], workspace);
+    if (controlBefore.sha256 !== controlAfter.sha256) failures.push("control_assets_changed_during_verification");
+  } catch (error) {
+    blocked.push(`control_assets_postflight_failed:${(error as Error).message}`);
+  }
+
   const ended = Date.now();
   const status: DeliveryStatus = blocked.length > 0 ? "blocked" : failures.length > 0 ? "unverified" : "verified";
   const beforeFields = snapshotFields(before);
@@ -254,7 +284,13 @@ export async function verifyDelivery(options: { configPath: string; receiptPath?
     schema_version: "1.0",
     run_id: runId,
     status,
-    policy: { id: policy.policyId, path: loaded.absolutePath, sha256: loaded.sha256 },
+    policy: {
+      id: policy.policyId,
+      path: loaded.absolutePath,
+      sha256: loaded.sha256,
+      bundle_sha256: controlBefore.sha256,
+      control_assets: controlBefore.assets,
+    },
     repository: {
       root: beforeFields.root,
       head: beforeFields.head,

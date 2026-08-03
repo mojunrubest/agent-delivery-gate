@@ -61,23 +61,29 @@ The command requires a full commit SHA and refuses to overwrite an existing work
 
 The command is an argv array and is launched with `shell: false`. File-based reporters must put `{report}` in one argv entry; every occurrence is replaced by a new, previously nonexistent path. `{artifactDir}` points to the current run's evidence directory. `{policyDir}` resolves to the protected contract directory, allowing canonical tests to live outside the candidate repository.
 
+A command that uses `{policyDir}` must declare every control-owned contract, config, helper, and local transitive dependency in `controlAssets`. Paths are relative to the policy directory. The verifier hashes the policy and sorted asset evidence into `policy.bundle_sha256`, records each asset hash in the receipt, and rejects a run if the policy or declared assets change during execution.
+
 ```json
 {
   "schemaVersion": "1",
   "policyId": "checkout/acceptance-v3",
   "command": [
-    "npx",
-    "vitest",
-    "run",
-    "--reporter=junit",
-    "--outputFile={report}"
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "{policyDir}/../tests/checkout.contract.test.mjs"
+  ],
+  "controlAssets": [
+    "../tests/checkout.contract.test.mjs",
+    "../tests/http-helpers.mjs"
   ],
   "timeoutMs": 120000,
-  "result": { "adapter": "junit", "source": "file" },
-  "requireCleanTree": true,
-  "artifacts": [{ "path": "{artifactDir}/checkout.png" }]
+  "result": { "adapter": "tap", "source": "stdout" },
+  "requireCleanTree": true
 }
 ```
+
+Asset discovery is deliberately declarative: an omitted imported helper is a policy-review defect. The bundle also does not hash Node, Python, `lsof`, installed package bytes, the kernel, or the verifier executable itself. Immutable control commits, lockfiles, clean ephemeral runners, and platform provenance remain separate controls.
 
 The complete formats are in [gate-policy.schema.json](schema/gate-policy.schema.json) and [delivery-receipt.schema.json](schema/delivery-receipt.schema.json).
 

@@ -7,6 +7,9 @@
     "--test-reporter=tap",
     "{policyDir}/../tests/webhook-inbox.contract.test.mjs"
   ],
+  "controlAssets": [
+    "../tests/webhook-inbox.contract.test.mjs"
+  ],
   "timeoutMs": 60000,
   "maxOutputBytes": 2097152,
   "result": {
@@ -17,4 +20,3 @@
   "requireTests": true,
   "requirePassingTest": true
 }
-

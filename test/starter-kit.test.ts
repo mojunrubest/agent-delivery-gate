@@ -52,9 +52,12 @@ test("HTTP starter helper exercises a real loopback JSON request", async (t) => 
 test("process HTTP helper starts and stops a cross-runtime style server", async (t) => {
   const helpers = await import(pathToFileURL(resolve(kitRoot, "tests/process-http-helpers.mjs")).href) as {
     startHttpProcess(context: typeof t, options: { command: string[] }): Promise<{
+      child: import("node:child_process").ChildProcess;
       origin: string;
+      ready: { port: number };
       stdoutAfterReady(): string;
     }>;
+    tcpListenerBindings(child: import("node:child_process").ChildProcess, port: number): string[];
   };
   const script = [
     'const http = require("node:http")',
@@ -68,6 +71,9 @@ test("process HTTP helper starts and stops a cross-runtime style server", async 
   assert.equal(response.status, 200);
   assert.equal(await response.text(), "process-ok");
   assert.match(running.stdoutAfterReady(), /after-ready/);
+  assert.deepEqual(helpers.tcpListenerBindings(running.child, running.ready.port), [
+    `127.0.0.1:${running.ready.port}`,
+  ]);
 });
 
 test("process HTTP helper cleans up a child that fails readiness validation", async (t) => {

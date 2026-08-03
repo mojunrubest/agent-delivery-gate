@@ -29,7 +29,7 @@ Untrusted:
 3. Process launch, capture, parsing, policy evaluation, and receipt issuance are one verifier operation.
 4. A verified receipt requires a zero exit code, a parseable structured result, at least one passed test, no failed tests, no disallowed flaky tests, required current-run artifacts, and an unchanged clean Git tree.
 5. Timeout, signal termination, launch failure, output overflow, missing/malformed report, Git inspection failure, and postflight failure are never green.
-6. The final receipt is written atomically after the child exits and includes hashes for the policy, argv, streams, report, artifacts, and candidate tree.
+6. The final receipt is written atomically after the child exits and includes hashes for the policy, its declared control-asset bundle, argv, streams, report, artifacts, and candidate tree.
 7. File evidence with an old modification time is rejected, and run-specific paths prevent accidental resume from consuming an earlier report.
 
 ## Attacks covered by the benchmark
@@ -47,10 +47,10 @@ Untrusted:
 
 ## Residual risks
 
-The verifier is not a semantic oracle. A weak acceptance contract can still accept incorrect code, and a sufficiently malicious candidate can game public tests.
+The verifier is not a semantic oracle. A weak acceptance contract can still accept incorrect code, and a sufficiently malicious candidate can game public tests. Control-asset declarations are explicit rather than dependency-discovered, so an omitted imported helper remains a contract-review defect.
 
 This spike also executes candidate code on the same host as the verifier. Malicious code could attack processes, files, credentials, or the runner. GitHub-hosted runners limit persistence, but this is not a sandbox boundary. A production version should run candidate commands in an isolated execution engine and return evidence over a narrow protocol to a separate receipt issuer.
 
-The local receipt is deterministic evidence, not a signature. In GitHub, `actions/attest` supplies the identity-bound Sigstore/in-toto envelope. Local consumers must trust the filesystem and verifier process.
+The local receipt is deterministic evidence, not a signature. Its control bundle binds declared files, not host runtimes, installed dependency bytes, system inspection tools, the kernel, or the verifier executable. In GitHub, `actions/attest` supplies the identity-bound Sigstore/in-toto envelope. Local consumers must still trust the filesystem, verifier process, and execution environment.
 
 Compromised maintainers, repository administrators, GitHub infrastructure, and organization policy are outside this spike's adversary model.

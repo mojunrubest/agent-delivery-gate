@@ -7,6 +7,9 @@
     "--test-reporter=tap",
     "{policyDir}/../tests/checkout.contract.test.mjs"
   ],
+  "controlAssets": [
+    "../tests/checkout.contract.test.mjs"
+  ],
   "timeoutMs": 30000,
   "maxOutputBytes": 1048576,
   "result": {

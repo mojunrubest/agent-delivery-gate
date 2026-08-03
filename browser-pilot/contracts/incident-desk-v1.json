@@ -8,6 +8,11 @@
     "--config={policyDir}/../playwright.config.mjs",
     "--reporter=json"
   ],
+  "controlAssets": [
+    "../playwright.config.mjs",
+    "../tests/incident-desk.spec.mjs",
+    "../../package-lock.json"
+  ],
   "timeoutMs": 90000,
   "maxOutputBytes": 10485760,
   "result": {

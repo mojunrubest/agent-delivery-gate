@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { isAbsolute, resolve } from "node:path";
 import { sha256 } from "./hash.js";
 import type { GatePolicy, ResultAdapter, ResultSource } from "./types.js";
 
@@ -26,13 +26,23 @@ export async function loadPolicy(path: string): Promise<{
   assert(value !== null && typeof value === "object" && !Array.isArray(value), "root must be an object");
   const policy = value as Partial<GatePolicy>;
   assertKeys(policy as Record<string, unknown>, [
-    "schemaVersion", "policyId", "command", "cwd", "timeoutMs", "maxOutputBytes", "result",
+    "schemaVersion", "policyId", "command", "controlAssets", "cwd", "timeoutMs", "maxOutputBytes", "result",
     "requireCleanTree", "requireTests", "requirePassingTest", "allowFlaky", "artifacts",
   ], "root");
   assert(policy.schemaVersion === "1", "schemaVersion must be '1'");
   assert(typeof policy.policyId === "string" && policy.policyId.length > 0, "policyId is required");
   assert(Array.isArray(policy.command) && policy.command.length > 0, "command must be a non-empty argv array");
   assert(policy.command.every((part) => typeof part === "string" && part.length > 0), "command entries must be strings");
+  if (policy.controlAssets !== undefined) {
+    assert(Array.isArray(policy.controlAssets) && policy.controlAssets.length > 0, "controlAssets must be a non-empty array");
+    assert(policy.controlAssets.every((asset) => typeof asset === "string" && asset.length > 0), "controlAssets entries must be strings");
+    assert(policy.controlAssets.every((asset) => !isAbsolute(asset)), "controlAssets entries must be relative to the policy directory");
+    assert(policy.controlAssets.every((asset) => !asset.includes("\0") && !asset.includes("{")), "controlAssets entries cannot contain placeholders");
+    assert(new Set(policy.controlAssets).size === policy.controlAssets.length, "controlAssets entries must be unique");
+  }
+  if (policy.command.some((part) => part.includes("{policyDir}"))) {
+    assert(policy.controlAssets !== undefined, "controlAssets is required when command uses {policyDir}");
+  }
   assert(policy.result !== undefined && typeof policy.result === "object", "result is required");
   assertKeys(policy.result as unknown as Record<string, unknown>, ["adapter", "source"], "result");
   assert(adapters.has(policy.result.adapter as ResultAdapter), "unsupported result adapter");
@@ -57,7 +67,7 @@ export async function loadPolicy(path: string): Promise<{
   return { policy: policy as GatePolicy, absolutePath, sha256: sha256(raw) };
 }
 
-export function policyDefaults(policy: GatePolicy): Required<Omit<GatePolicy, "cwd" | "artifacts">> & Pick<GatePolicy, "cwd" | "artifacts"> {
+export function policyDefaults(policy: GatePolicy): Required<Omit<GatePolicy, "cwd" | "artifacts" | "controlAssets">> & Pick<GatePolicy, "cwd" | "artifacts" | "controlAssets"> {
   return {
     ...policy,
     timeoutMs: policy.timeoutMs ?? 120_000,

@@ -134,11 +134,67 @@ test("can load a protected policy outside the candidate workspace", async () => 
 test("materializes canonical tests from the protected policy directory", async () => {
   const root = await createRepository(tapPolicy([process.execPath, "unused.mjs"]), { "candidate.txt": "expected\n" });
   const control = await mkdtemp(resolve(tmpdir(), "delivery-gate-control-"));
-  const policy = tapPolicy([process.execPath, "{policyDir}/canonical.mjs"]);
+  const policy = tapPolicy([process.execPath, "{policyDir}/canonical.mjs"], { controlAssets: ["canonical.mjs"] });
   const controlPolicy = resolve(control, "policy.json");
   await writeFile(controlPolicy, `${JSON.stringify(policy)}\n`);
   await writeFile(resolve(control, "canonical.mjs"), 'import { readFileSync } from "node:fs"; const ok = readFileSync("candidate.txt", "utf8") === "expected\\n"; console.log(`TAP version 13\\n${ok ? "ok" : "not ok"} 1 - external contract\\n1..1`); if (!ok) process.exitCode = 1;\n');
   const { receipt } = await verifyDelivery({ configPath: controlPolicy, workspace: root });
   assert.equal(receipt.status, "verified");
   assert.equal(receipt.execution.command[1], resolve(control, "canonical.mjs"));
+  assert.match(receipt.policy.bundle_sha256, /^[a-f0-9]{64}$/);
+  assert.deepEqual(receipt.policy.control_assets.map((asset) => asset.path), ["canonical.mjs"]);
+  assert.match(receipt.policy.control_assets[0].sha256, /^[a-f0-9]{64}$/);
+});
+
+test("requires declared control assets for a protected policy directory command", async () => {
+  const root = await createRepository(tapPolicy([process.execPath, "unused.mjs"]));
+  const control = await mkdtemp(resolve(tmpdir(), "delivery-gate-control-"));
+  const controlPolicy = resolve(control, "policy.json");
+  await writeFile(controlPolicy, `${JSON.stringify(tapPolicy([process.execPath, "{policyDir}/canonical.mjs"]))}\n`);
+  await writeFile(resolve(control, "canonical.mjs"), 'console.log("TAP version 13\\nok 1 - pass\\n1..1");\n');
+  await assert.rejects(
+    verifyDelivery({ configPath: controlPolicy, workspace: root }),
+    /controlAssets is required when command uses \{policyDir\}/,
+  );
+});
+
+test("rejects a declared control asset inside the candidate workspace", async () => {
+  const policy = tapPolicy([process.execPath, "{policyDir}/canonical.mjs"], { controlAssets: ["canonical.mjs"] });
+  const root = await createRepository(policy, {
+    "canonical.mjs": 'console.log("TAP version 13\\nok 1 - candidate controlled\\n1..1");\n',
+  });
+  await assert.rejects(verify(root), /control asset is inside the candidate workspace/);
+});
+
+test("changes the portable bundle hash when a declared control asset changes", async () => {
+  const root = await createRepository(tapPolicy([process.execPath, "unused.mjs"]));
+  const control = await mkdtemp(resolve(tmpdir(), "delivery-gate-control-"));
+  const controlPolicy = resolve(control, "policy.json");
+  const canonical = resolve(control, "canonical.mjs");
+  const policy = tapPolicy([process.execPath, "{policyDir}/canonical.mjs"], { controlAssets: ["canonical.mjs"] });
+  await writeFile(controlPolicy, `${JSON.stringify(policy)}\n`);
+  await writeFile(canonical, 'console.log("TAP version 13\\nok 1 - version one\\n1..1");\n');
+  const first = await verifyDelivery({ configPath: controlPolicy, workspace: root });
+  await writeFile(canonical, 'console.log("TAP version 13\\nok 1 - version two\\n1..1");\n');
+  const second = await verifyDelivery({ configPath: controlPolicy, workspace: root });
+  assert.equal(first.receipt.status, "verified");
+  assert.equal(second.receipt.status, "verified");
+  assert.notEqual(first.receipt.policy.bundle_sha256, second.receipt.policy.bundle_sha256);
+});
+
+test("rejects a run that mutates a declared control asset", async () => {
+  const root = await createRepository(tapPolicy([process.execPath, "unused.mjs"]));
+  const control = await mkdtemp(resolve(tmpdir(), "delivery-gate-control-"));
+  const controlPolicy = resolve(control, "policy.json");
+  const policy = tapPolicy([process.execPath, "{policyDir}/canonical.mjs"], { controlAssets: ["canonical.mjs"] });
+  await writeFile(controlPolicy, `${JSON.stringify(policy)}\n`);
+  await writeFile(resolve(control, "canonical.mjs"), [
+    'import { appendFileSync } from "node:fs";',
+    'import { fileURLToPath } from "node:url";',
+    'appendFileSync(fileURLToPath(import.meta.url), "\\n// mutated\\n");',
+    'console.log("TAP version 13\\nok 1 - green output\\n1..1");',
+  ].join("\n"));
+  const { receipt } = await verifyDelivery({ configPath: controlPolicy, workspace: root });
+  assert.equal(receipt.status, "unverified");
+  assert(receipt.failures.includes("control_assets_changed_during_verification"));
 });

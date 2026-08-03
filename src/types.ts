@@ -11,6 +11,7 @@ export interface GatePolicy {
   schemaVersion: "1";
   policyId: string;
   command: string[];
+  controlAssets?: string[];
   cwd?: string;
   timeoutMs?: number;
   maxOutputBytes?: number;
@@ -47,6 +48,8 @@ export interface DeliveryReceipt {
     id: string;
     path: string;
     sha256: string;
+    bundle_sha256: string;
+    control_assets: FileEvidence[];
   };
   repository: {
     root: string | null;

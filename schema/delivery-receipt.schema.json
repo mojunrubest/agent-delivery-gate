@@ -14,7 +14,9 @@
       "properties": {
         "id": { "type": "string", "minLength": 1 },
         "path": { "type": "string", "minLength": 1 },
-        "sha256": { "$ref": "#/$defs/sha256" }
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "bundle_sha256": { "$ref": "#/$defs/sha256" },
+        "control_assets": { "type": "array", "items": { "$ref": "#/$defs/fileEvidence" } }
       },
       "additionalProperties": false
     },

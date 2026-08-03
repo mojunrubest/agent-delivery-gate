@@ -1,5 +1,23 @@
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
+
+export function tcpListenerBindings(child, port) {
+  assert(Number.isInteger(child?.pid) && child.pid > 0, "child process must have a pid");
+  assert(Number.isInteger(port) && port > 0 && port <= 65_535, "listener port must be valid");
+  const result = spawnSync("lsof", [
+    "-nP",
+    "-a",
+    "-p", String(child.pid),
+    `-iTCP:${port}`,
+    "-sTCP:LISTEN",
+    "-Fn",
+  ], { encoding: "utf8", timeout: 1_000 });
+  if (result.error) throw new Error(`failed to inspect TCP listener (${result.error.message})`);
+  assert.equal(result.status, 0, `lsof did not find TCP listener for pid ${child.pid} port ${port}: ${result.stderr.trim()}`);
+  const bindings = result.stdout.split("\n").filter((line) => line.startsWith("n")).map((line) => line.slice(1));
+  assert(bindings.length > 0, `lsof returned no TCP bindings for pid ${child.pid} port ${port}`);
+  return bindings;
+}
 
 function waitForExit(child, timeoutMs) {
   if (child.exitCode !== null || child.signalCode !== null) return Promise.resolve(true);

@@ -13,6 +13,7 @@ import {
 import {
   startHttpProcess,
   stopHttpProcess,
+  tcpListenerBindings,
 } from "../../starter-kits/api-contract/tests/process-http-helpers.mjs";
 
 function digest(body) {
@@ -96,18 +97,9 @@ test("binds only exact loopback, keeps stdout quiet, and exits cleanly on SIGTER
   assertJsonResult(await requestJson(running.origin, "/blobs"), { status: 200, body: { blobs: [] } });
   await new Promise((resolveWait) => setTimeout(resolveWait, 20));
   assert.equal(running.stdoutAfterReady(), "");
-
-  let wildcardReachable = false;
-  try {
-    const response = await fetch(`http://127.0.0.2:${running.ready.port}/blobs`, {
-      signal: AbortSignal.timeout(500),
-    });
-    await response.arrayBuffer();
-    wildcardReachable = true;
-  } catch {
-    wildcardReachable = false;
-  }
-  assert.equal(wildcardReachable, false, "listener accepted traffic outside 127.0.0.1");
+  assert.deepEqual(tcpListenerBindings(running.child, running.ready.port), [
+    `127.0.0.1:${running.ready.port}`,
+  ]);
 
   const stopped = await stopHttpProcess(running.child, 500);
   assert.equal(stopped.graceful, true);
