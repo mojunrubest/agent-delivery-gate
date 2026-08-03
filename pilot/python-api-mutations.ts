@@ -35,6 +35,11 @@ interface MutationResult extends Mutation {
   failedGroups: string[];
   publicDurationMs: number;
   protectedDurationMs: number;
+  controlEvidence?: {
+    receiptSchemaVersion: DeliveryReceipt["schema_version"];
+    policyBundleSha256: string;
+    controlAssets: DeliveryReceipt["policy"]["control_assets"];
+  };
 }
 
 function argument(name: string): string | undefined {
@@ -95,7 +100,7 @@ async function evaluate(mutation: Mutation): Promise<MutationResult> {
     );
     const receipt = JSON.parse(await readFile(receiptPath, "utf8")) as DeliveryReceipt;
     const tap = await readFile(receipt.execution.stdout.path, "utf8");
-    return {
+    const result: MutationResult = {
       ...mutation,
       publicAccepted: publicResult.ok,
       protectedAccepted: receipt.status === "verified",
@@ -106,6 +111,14 @@ async function evaluate(mutation: Mutation): Promise<MutationResult> {
       publicDurationMs,
       protectedDurationMs: receipt.execution.duration_ms,
     };
+    if (mutation.id === "baseline") {
+      result.controlEvidence = {
+        receiptSchemaVersion: receipt.schema_version,
+        policyBundleSha256: receipt.policy.bundle_sha256,
+        controlAssets: receipt.policy.control_assets,
+      };
+    }
+    return result;
   } finally {
     await rm(workspace, { recursive: true, force: true });
   }
@@ -129,6 +142,7 @@ console.log(`baseline`.padEnd(34) + ` public=${baseline.publicAccepted ? "ACCEPT
 if (!baseline.publicAccepted || !baseline.protectedAccepted) {
   throw new Error(`mutation fixture baseline failed: ${JSON.stringify(baseline)}`);
 }
+if (!baseline.controlEvidence) throw new Error("mutation fixture baseline did not produce control bundle evidence");
 
 const rows = new Array<MutationResult>(mutations.length);
 let nextIndex = 0;
@@ -166,15 +180,17 @@ const byCategory = Object.fromEntries(categories.map((category) => {
 }));
 const policy = await readFile(policyPath);
 const fixture = await readFile(resolve(fixtureRoot, "src/blob_server.py"));
+const { controlEvidence, ...baselineResult } = baseline;
 const result = {
   schemaVersion: "1",
   generatedAt: new Date().toISOString(),
   kind: "content_blob_contract_mutation_campaign",
   frozenControlCommit: (await execute("git", ["rev-parse", "HEAD"], { cwd: projectRoot })).stdout.trim(),
   policySha256: createHash("sha256").update(policy).digest("hex"),
+  controlEvidence,
   fixtureSha256: createHash("sha256").update(fixture).digest("hex"),
   campaignDurationMs: Date.now() - campaignStarted,
-  baseline,
+  baseline: baselineResult,
   metrics: {
     mutations: rows.length,
     publicKilled: rows.length - publicSurvivors.length,
