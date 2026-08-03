@@ -130,6 +130,8 @@ The first reuse produced a [Real Versioned Document Agent Pilot](docs/REAL_VERSI
 
 The next [Real Cross-Runtime Agent Pilot](docs/REAL_CROSS_RUNTIME_AGENT_PILOT.md) kept the protected contract in Node while the candidate was a Python 3.9 standard-library process. One clean-room Agent passed public 1 / 1 and protected 8 / 8 without a candidate repair; [run 30561322261](https://github.com/mojunrubest/blob-store-python-pilot/actions/runs/30561322261) also exposed and removed a Node-only candidate-preparation assumption from the reusable workflow.
 
+A falsification follow-up ran 53 explicit API mutants against that task. The original protected contract killed 32 / 53; the [adversarial v2 audit](docs/CONTENT_BLOB_MUTATION_AUDIT_V2.md) killed 51 / 53 with no timeout-only results and kept atomic-publication and durability gaps visible. The campaign also led receipts to bind declared contract/helper bundles instead of only the policy JSON.
+
 ## GitHub boundary
 
 The included workflow extracts the verifier and contracts from the protected base SHA into `$RUNNER_TEMP`, then points that control-plane verifier at the candidate workspace. It pins GitHub Actions by commit and wraps successful receipts in a GitHub OIDC custom attestation.

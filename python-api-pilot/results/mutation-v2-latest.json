@@ -1,0 +1,1446 @@
+{
+  "schemaVersion": "1",
+  "generatedAt": "2026-08-03T21:07:29.693Z",
+  "kind": "content_blob_contract_mutation_campaign",
+  "frozenControlCommit": "e2fbcd5ab0c5293cea06c752f7e446662805ec57",
+  "policySha256": "e6dcd3698188a850ee6b2199918e0438a00b94df8107507dd20fd35a940fd52f",
+  "controlEvidence": {
+    "receiptSchemaVersion": "1.0",
+    "policyBundleSha256": "7bcda4e2f1cfdaba246df3213fa7bed02ce5e503f73f539c196cbfc7f28825a8",
+    "controlAssets": [
+      {
+        "path": "../../starter-kits/api-contract/tests/http-helpers.mjs",
+        "sha256": "6d77656a7305b66a521cbe8679dda83c5bafc4f86477a911a505e242153953b7",
+        "bytes": 2015
+      },
+      {
+        "path": "../../starter-kits/api-contract/tests/process-http-helpers.mjs",
+        "sha256": "997cff1ddfd8a20c2fe1d9cf285aed413b730121b2bb8c2c403b2849d28012fa",
+        "bytes": 4977
+      },
+      {
+        "path": "../tests/content-blob.adversarial.contract.test.mjs",
+        "sha256": "cc217bb2a0575b1e4572b758decbd2f4ecffb40ec726925d1379b1c8e1683bf0",
+        "bytes": 8980
+      },
+      {
+        "path": "../tests/content-blob.contract.test.mjs",
+        "sha256": "e00be2d163da42ac1c8d940cc86a0f51ab6c157e8405253a46b89697743680f4",
+        "bytes": 8192
+      }
+    ]
+  },
+  "fixtureSha256": "dcf279db855e1a7bfbfb612c5a8f90c6851df846c08e30639d70a070cca0e97c",
+  "campaignDurationMs": 82032,
+  "baseline": {
+    "id": "baseline",
+    "category": "control",
+    "defect": "none",
+    "publicAccepted": true,
+    "protectedAccepted": true,
+    "gateStatus": "verified",
+    "tests": {
+      "collected": 15,
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0
+    },
+    "failures": [],
+    "failedGroups": [],
+    "publicDurationMs": 652,
+    "protectedDurationMs": 4783
+  },
+  "metrics": {
+    "mutations": 53,
+    "publicKilled": 3,
+    "publicSurvived": 50,
+    "protectedKilled": 51,
+    "protectedSurvived": 2,
+    "protectedAssertionKilled": 51,
+    "protectedBlocked": 0,
+    "protectedTimedOut": 0,
+    "protectedMutationScore": 0.9622641509433962
+  },
+  "assessment": "GAPS_FOUND",
+  "survivorIds": [
+    "no_atomic_replace",
+    "no_file_fsync"
+  ],
+  "byCategory": {
+    "cache": {
+      "mutations": 2,
+      "killed": 2,
+      "survived": 0,
+      "mutationScore": 1,
+      "survivorIds": []
+    },
+    "cli": {
+      "mutations": 3,
+      "killed": 3,
+      "survived": 0,
+      "mutationScore": 1,
+      "survivorIds": []
+    },
+    "concurrency": {
+      "mutations": 1,
+      "killed": 1,
+      "survived": 0,
+      "mutationScore": 1,
+      "survivorIds": []
+    },
+    "process": {
+      "mutations": 4,
+      "killed": 4,
+      "survived": 0,
+      "mutationScore": 1,
+      "survivorIds": []
+    },
+    "range": {
+      "mutations": 8,
+      "killed": 8,
+      "survived": 0,
+      "mutationScore": 1,
+      "survivorIds": []
+    },
+    "read": {
+      "mutations": 8,
+      "killed": 8,
+      "survived": 0,
+      "mutationScore": 1,
+      "survivorIds": []
+    },
+    "resource": {
+      "mutations": 1,
+      "killed": 1,
+      "survived": 0,
+      "mutationScore": 1,
+      "survivorIds": []
+    },
+    "routing": {
+      "mutations": 7,
+      "killed": 7,
+      "survived": 0,
+      "mutationScore": 1,
+      "survivorIds": []
+    },
+    "storage": {
+      "mutations": 12,
+      "killed": 10,
+      "survived": 2,
+      "mutationScore": 0.8333333333333334,
+      "survivorIds": [
+        "no_atomic_replace",
+        "no_file_fsync"
+      ]
+    },
+    "upload": {
+      "mutations": 7,
+      "killed": 7,
+      "survived": 0,
+      "mutationScore": 1,
+      "survivorIds": []
+    }
+  },
+  "mutationsDetail": [
+    {
+      "id": "readiness_wrong_host",
+      "category": "process",
+      "defect": "advertises a non-loopback readiness host",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 2,
+        "failed": 13,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "enforces CLI defaults and rejects missing or negative arguments",
+        "binds only exact loopback, keeps stdout quiet, and exits cleanly on SIGTERM",
+        "rejects uppercase digests and enforces an exact zero body limit",
+        "rejects an oversized Content-Length before waiting for request bytes",
+        "writes no bytes after raw HEAD response headers",
+        "returns stable 404 for every unsupported path and method",
+        "uploads, retrieves, heads, and lists content-addressed blobs",
+        "makes identical uploads idempotent and serializes concurrent creation",
+        "rejects invalid IDs, media types, digest mismatches, and oversized bodies",
+        "supports exact ETag revalidation",
+        "serves inclusive byte ranges and rejects invalid ranges",
+        "restores files across process restarts and lists by digest",
+        "returns stable JSON errors for missing blobs and unsupported routes"
+      ],
+      "publicDurationMs": 660,
+      "protectedDurationMs": 4193
+    },
+    {
+      "id": "readiness_extra_stdout",
+      "category": "process",
+      "defect": "prints a second stdout line after readiness",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "binds only exact loopback, keeps stdout quiet, and exits cleanly on SIGTERM"
+      ],
+      "publicDurationMs": 663,
+      "protectedDurationMs": 4779
+    },
+    {
+      "id": "bind_wildcard",
+      "category": "process",
+      "defect": "binds the HTTP listener to every interface",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "binds only exact loopback, keeps stdout quiet, and exits cleanly on SIGTERM"
+      ],
+      "publicDurationMs": 663,
+      "protectedDurationMs": 4779
+    },
+    {
+      "id": "ignore_sigterm",
+      "category": "process",
+      "defect": "ignores SIGTERM instead of exiting cleanly",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "binds only exact loopback, keeps stdout quiet, and exits cleanly on SIGTERM"
+      ],
+      "publicDurationMs": 3112,
+      "protectedDurationMs": 8670
+    },
+    {
+      "id": "default_port_negative",
+      "category": "cli",
+      "defect": "uses an invalid default port instead of zero",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "enforces CLI defaults and rejects missing or negative arguments"
+      ],
+      "publicDurationMs": 630,
+      "protectedDurationMs": 4676
+    },
+    {
+      "id": "storage_dir_optional",
+      "category": "cli",
+      "defect": "does not require --storage-dir",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "enforces CLI defaults and rejects missing or negative arguments"
+      ],
+      "publicDurationMs": 641,
+      "protectedDurationMs": 4720
+    },
+    {
+      "id": "allow_negative_max",
+      "category": "cli",
+      "defect": "accepts a negative --max-body-bytes value",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "enforces CLI defaults and rejects missing or negative arguments"
+      ],
+      "publicDurationMs": 635,
+      "protectedDurationMs": 4721
+    },
+    {
+      "id": "invalid_storage_stdout",
+      "category": "storage",
+      "defect": "reports invalid storage on stdout",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 13,
+        "failed": 2,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "rejects every invalid durable entry without modifying storage",
+        "fails startup closed when durable blobs are invalid"
+      ],
+      "publicDurationMs": 626,
+      "protectedDurationMs": 4630
+    },
+    {
+      "id": "invalid_storage_exit_zero",
+      "category": "storage",
+      "defect": "returns success for invalid storage",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 13,
+        "failed": 2,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "rejects every invalid durable entry without modifying storage",
+        "fails startup closed when durable blobs are invalid"
+      ],
+      "publicDurationMs": 646,
+      "protectedDurationMs": 4598
+    },
+    {
+      "id": "skip_invalid_name_validation",
+      "category": "storage",
+      "defect": "ignores durable files with invalid digest names",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "rejects every invalid durable entry without modifying storage"
+      ],
+      "publicDurationMs": 647,
+      "protectedDurationMs": 4598
+    },
+    {
+      "id": "skip_nonregular_validation",
+      "category": "storage",
+      "defect": "ignores non-regular durable entries",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "rejects every invalid durable entry without modifying storage"
+      ],
+      "publicDurationMs": 636,
+      "protectedDurationMs": 4707
+    },
+    {
+      "id": "skip_hash_validation",
+      "category": "storage",
+      "defect": "does not verify durable file contents against their names",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 13,
+        "failed": 2,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "rejects every invalid durable entry without modifying storage",
+        "fails startup closed when durable blobs are invalid"
+      ],
+      "publicDurationMs": 630,
+      "protectedDurationMs": 9672
+    },
+    {
+      "id": "mutate_invalid_storage",
+      "category": "storage",
+      "defect": "deletes an invalid durable file before failing startup",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "rejects every invalid durable entry without modifying storage"
+      ],
+      "publicDurationMs": 645,
+      "protectedDurationMs": 4586
+    },
+    {
+      "id": "no_atomic_replace",
+      "category": "storage",
+      "defect": "writes new blobs directly to their final path",
+      "publicAccepted": true,
+      "protectedAccepted": true,
+      "gateStatus": "verified",
+      "tests": {
+        "collected": 15,
+        "passed": 15,
+        "failed": 0,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [],
+      "failedGroups": [],
+      "publicDurationMs": 632,
+      "protectedDurationMs": 4589
+    },
+    {
+      "id": "no_file_fsync",
+      "category": "storage",
+      "defect": "does not flush and fsync a new blob before publication",
+      "publicAccepted": true,
+      "protectedAccepted": true,
+      "gateStatus": "verified",
+      "tests": {
+        "collected": 15,
+        "passed": 15,
+        "failed": 0,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [],
+      "failedGroups": [],
+      "publicDurationMs": 632,
+      "protectedDurationMs": 4694
+    },
+    {
+      "id": "restart_forgets_blobs",
+      "category": "storage",
+      "defect": "deletes valid blobs during restart",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 12,
+        "failed": 3,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "rejects every invalid durable entry without modifying storage",
+        "restores files across process restarts and lists by digest",
+        "fails startup closed when durable blobs are invalid"
+      ],
+      "publicDurationMs": 641,
+      "protectedDurationMs": 9698
+    },
+    {
+      "id": "reverse_listing",
+      "category": "storage",
+      "defect": "lists blobs in reverse digest order",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "restores files across process restarts and lists by digest"
+      ],
+      "publicDurationMs": 641,
+      "protectedDurationMs": 4644
+    },
+    {
+      "id": "omit_zero_size_listing",
+      "category": "storage",
+      "defect": "omits empty durable blobs from listing",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "restores files across process restarts and lists by digest"
+      ],
+      "publicDurationMs": 638,
+      "protectedDurationMs": 4695
+    },
+    {
+      "id": "leftover_temp_file",
+      "category": "storage",
+      "defect": "leaves an invalid temporary file in durable storage",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "restores files across process restarts and lists by digest"
+      ],
+      "publicDurationMs": 642,
+      "protectedDurationMs": 4069
+    },
+    {
+      "id": "allow_uppercase_digest",
+      "category": "upload",
+      "defect": "accepts uppercase digest path characters",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "rejects uppercase digests and enforces an exact zero body limit"
+      ],
+      "publicDurationMs": 643,
+      "protectedDurationMs": 4594
+    },
+    {
+      "id": "accept_wrong_media_type",
+      "category": "upload",
+      "defect": "accepts non-octet-stream uploads",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "rejects invalid IDs, media types, digest mismatches, and oversized bodies"
+      ],
+      "publicDurationMs": 592,
+      "protectedDurationMs": 4643
+    },
+    {
+      "id": "ignore_body_limit",
+      "category": "upload",
+      "defect": "ignores the configured request body limit",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 12,
+        "failed": 3,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "rejects uppercase digests and enforces an exact zero body limit",
+        "rejects an oversized Content-Length before waiting for request bytes",
+        "rejects invalid IDs, media types, digest mismatches, and oversized bodies"
+      ],
+      "publicDurationMs": 633,
+      "protectedDurationMs": 4595
+    },
+    {
+      "id": "body_limit_off_by_one",
+      "category": "upload",
+      "defect": "allows one byte beyond the configured body limit",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 13,
+        "failed": 2,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "rejects uppercase digests and enforces an exact zero body limit",
+        "rejects invalid IDs, media types, digest mismatches, and oversized bodies"
+      ],
+      "publicDurationMs": 623,
+      "protectedDurationMs": 4643
+    },
+    {
+      "id": "zero_limit_unlimited",
+      "category": "upload",
+      "defect": "treats a zero body limit as unlimited",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "rejects uppercase digests and enforces an exact zero body limit"
+      ],
+      "publicDurationMs": 634,
+      "protectedDurationMs": 4574
+    },
+    {
+      "id": "read_oversize_before_reject",
+      "category": "resource",
+      "defect": "reads an entire oversized request before rejecting it",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "rejects an oversized Content-Length before waiting for request bytes"
+      ],
+      "publicDurationMs": 629,
+      "protectedDurationMs": 4587
+    },
+    {
+      "id": "accept_digest_mismatch",
+      "category": "upload",
+      "defect": "stores bytes whose hash differs from the path digest",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "rejects invalid IDs, media types, digest mismatches, and oversized bodies"
+      ],
+      "publicDurationMs": 631,
+      "protectedDurationMs": 4604
+    },
+    {
+      "id": "duplicate_reports_created",
+      "category": "concurrency",
+      "defect": "reports every duplicate upload as newly created",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "makes identical uploads idempotent and serializes concurrent creation"
+      ],
+      "publicDurationMs": 616,
+      "protectedDurationMs": 4642
+    },
+    {
+      "id": "wrong_reported_size",
+      "category": "upload",
+      "defect": "reports uploaded blob size as zero",
+      "publicAccepted": false,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 13,
+        "failed": 2,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "uploads, retrieves, heads, and lists content-addressed blobs",
+        "makes identical uploads idempotent and serializes concurrent creation"
+      ],
+      "publicDurationMs": 632,
+      "protectedDurationMs": 4625
+    },
+    {
+      "id": "missing_etag",
+      "category": "read",
+      "defect": "omits blob ETag headers",
+      "publicAccepted": false,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 13,
+        "failed": 2,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "uploads, retrieves, heads, and lists content-addressed blobs",
+        "supports exact ETag revalidation"
+      ],
+      "publicDurationMs": 645,
+      "protectedDurationMs": 4618
+    },
+    {
+      "id": "unquoted_etag",
+      "category": "read",
+      "defect": "uses an unquoted digest as the ETag",
+      "publicAccepted": false,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 13,
+        "failed": 2,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "uploads, retrieves, heads, and lists content-addressed blobs",
+        "supports exact ETag revalidation"
+      ],
+      "publicDurationMs": 641,
+      "protectedDurationMs": 4606
+    },
+    {
+      "id": "weak_etag_matches",
+      "category": "cache",
+      "defect": "treats a weak If-None-Match tag as an exact match",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "supports exact ETag revalidation"
+      ],
+      "publicDurationMs": 635,
+      "protectedDurationMs": 4654
+    },
+    {
+      "id": "any_etag_matches",
+      "category": "cache",
+      "defect": "returns 304 for every If-None-Match value",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "supports exact ETag revalidation"
+      ],
+      "publicDurationMs": 622,
+      "protectedDurationMs": 4632
+    },
+    {
+      "id": "omit_blob_content_length",
+      "category": "read",
+      "defect": "omits Content-Length from blob responses",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 13,
+        "failed": 2,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "uploads, retrieves, heads, and lists content-addressed blobs",
+        "serves inclusive byte ranges and rejects invalid ranges"
+      ],
+      "publicDurationMs": 646,
+      "protectedDurationMs": 4613
+    },
+    {
+      "id": "wrong_blob_content_type",
+      "category": "read",
+      "defect": "returns blobs as text/plain",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "uploads, retrieves, heads, and lists content-addressed blobs"
+      ],
+      "publicDurationMs": 637,
+      "protectedDurationMs": 4612
+    },
+    {
+      "id": "head_status_no_content",
+      "category": "read",
+      "defect": "returns 204 instead of 200 for blob HEAD",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 13,
+        "failed": 2,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "writes no bytes after raw HEAD response headers",
+        "uploads, retrieves, heads, and lists content-addressed blobs"
+      ],
+      "publicDurationMs": 632,
+      "protectedDurationMs": 4650
+    },
+    {
+      "id": "head_writes_body",
+      "category": "read",
+      "defect": "writes blob bytes in a HEAD response",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "writes no bytes after raw HEAD response headers"
+      ],
+      "publicDurationMs": 635,
+      "protectedDurationMs": 4598
+    },
+    {
+      "id": "missing_blob_bad_request",
+      "category": "read",
+      "defect": "returns 400 instead of 404 for a missing blob",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "returns stable JSON errors for missing blobs and unsupported routes"
+      ],
+      "publicDurationMs": 623,
+      "protectedDurationMs": 4609
+    },
+    {
+      "id": "json_content_type_text",
+      "category": "read",
+      "defect": "labels JSON responses as text/plain",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 3,
+        "failed": 12,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "enforces CLI defaults and rejects missing or negative arguments",
+        "binds only exact loopback, keeps stdout quiet, and exits cleanly on SIGTERM",
+        "rejects uppercase digests and enforces an exact zero body limit",
+        "writes no bytes after raw HEAD response headers",
+        "returns stable 404 for every unsupported path and method",
+        "uploads, retrieves, heads, and lists content-addressed blobs",
+        "makes identical uploads idempotent and serializes concurrent creation",
+        "rejects invalid IDs, media types, digest mismatches, and oversized bodies",
+        "supports exact ETag revalidation",
+        "serves inclusive byte ranges and rejects invalid ranges",
+        "restores files across process restarts and lists by digest",
+        "returns stable JSON errors for missing blobs and unsupported routes"
+      ],
+      "publicDurationMs": 624,
+      "protectedDurationMs": 4061
+    },
+    {
+      "id": "range_ignored",
+      "category": "range",
+      "defect": "ignores Range and returns the full blob",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "serves inclusive byte ranges and rejects invalid ranges"
+      ],
+      "publicDurationMs": 624,
+      "protectedDurationMs": 4636
+    },
+    {
+      "id": "range_end_exclusive",
+      "category": "range",
+      "defect": "treats the inclusive range end as exclusive",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "serves inclusive byte ranges and rejects invalid ranges"
+      ],
+      "publicDurationMs": 631,
+      "protectedDurationMs": 4593
+    },
+    {
+      "id": "range_partial_status_200",
+      "category": "range",
+      "defect": "returns 200 for a partial response",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "serves inclusive byte ranges and rejects invalid ranges"
+      ],
+      "publicDurationMs": 647,
+      "protectedDurationMs": 4597
+    },
+    {
+      "id": "range_open_ended_accepted",
+      "category": "range",
+      "defect": "accepts an open-ended byte range",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "serves inclusive byte ranges and rejects invalid ranges"
+      ],
+      "publicDurationMs": 625,
+      "protectedDurationMs": 4657
+    },
+    {
+      "id": "invalid_range_bad_request",
+      "category": "range",
+      "defect": "returns 400 instead of 416 for invalid ranges",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "serves inclusive byte ranges and rejects invalid ranges"
+      ],
+      "publicDurationMs": 634,
+      "protectedDurationMs": 4695
+    },
+    {
+      "id": "omit_partial_content_range",
+      "category": "range",
+      "defect": "omits Content-Range from a 206 response",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "serves inclusive byte ranges and rejects invalid ranges"
+      ],
+      "publicDurationMs": 629,
+      "protectedDurationMs": 4656
+    },
+    {
+      "id": "omit_unsatisfied_content_range",
+      "category": "range",
+      "defect": "omits Content-Range from a 416 response",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "serves inclusive byte ranges and rejects invalid ranges"
+      ],
+      "publicDurationMs": 592,
+      "protectedDurationMs": 4709
+    },
+    {
+      "id": "head_range_ignored",
+      "category": "range",
+      "defect": "ignores Range on HEAD requests",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "serves inclusive byte ranges and rejects invalid ranges"
+      ],
+      "publicDurationMs": 644,
+      "protectedDurationMs": 4642
+    },
+    {
+      "id": "unknown_method_405",
+      "category": "routing",
+      "defect": "returns 405 instead of stable JSON 404 for unknown methods",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 13,
+        "failed": 2,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "returns stable 404 for every unsupported path and method",
+        "returns stable JSON errors for missing blobs and unsupported routes"
+      ],
+      "publicDurationMs": 639,
+      "protectedDurationMs": 4695
+    },
+    {
+      "id": "extra_path_invalid_digest",
+      "category": "routing",
+      "defect": "classifies a nested blob path as an invalid digest",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "returns stable 404 for every unsupported path and method"
+      ],
+      "publicDurationMs": 639,
+      "protectedDurationMs": 4695
+    },
+    {
+      "id": "trailing_slash_lists",
+      "category": "routing",
+      "defect": "treats /blobs/ as the collection route",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "returns stable 404 for every unsupported path and method"
+      ],
+      "publicDurationMs": 633,
+      "protectedDurationMs": 4688
+    },
+    {
+      "id": "post_aliases_put",
+      "category": "routing",
+      "defect": "allows POST to create a blob",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "returns stable 404 for every unsupported path and method"
+      ],
+      "publicDurationMs": 642,
+      "protectedDurationMs": 4673
+    },
+    {
+      "id": "delete_existing_allowed",
+      "category": "routing",
+      "defect": "allows DELETE for an existing blob",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "returns stable 404 for every unsupported path and method"
+      ],
+      "publicDurationMs": 654,
+      "protectedDurationMs": 4716
+    },
+    {
+      "id": "head_lists_blobs",
+      "category": "routing",
+      "defect": "allows HEAD on the blob collection",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "returns stable 404 for every unsupported path and method"
+      ],
+      "publicDurationMs": 642,
+      "protectedDurationMs": 4729
+    },
+    {
+      "id": "put_collection_succeeds",
+      "category": "routing",
+      "defect": "allows PUT on the blob collection",
+      "publicAccepted": true,
+      "protectedAccepted": false,
+      "gateStatus": "unverified",
+      "tests": {
+        "collected": 15,
+        "passed": 14,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "failures": [
+        "command_exit_nonzero",
+        "tests_failed"
+      ],
+      "failedGroups": [
+        "returns stable 404 for every unsupported path and method"
+      ],
+      "publicDurationMs": 616,
+      "protectedDurationMs": 4822
+    }
+  ]
+}
