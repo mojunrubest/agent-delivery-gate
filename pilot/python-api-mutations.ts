@@ -10,8 +10,8 @@ import type { DeliveryReceipt } from "../src/types.js";
 const execute = promisify(execFile);
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const fixtureRoot = resolve(projectRoot, "python-api-pilot/mutation-fixture");
-const policyPath = resolve(projectRoot, "python-api-pilot/contracts/content-blob-v1.json");
-const resultPath = resolve(projectRoot, "python-api-pilot/results/mutation-latest.json");
+const policyPath = resolve(projectRoot, argument("--policy") ?? "python-api-pilot/contracts/content-blob-v1.json");
+const resultPath = resolve(projectRoot, argument("--output") ?? "python-api-pilot/results/mutation-latest.json");
 const cliPath = resolve(projectRoot, "dist/src/cli.js");
 
 interface Mutation {

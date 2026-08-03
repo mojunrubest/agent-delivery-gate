@@ -17,11 +17,16 @@ function waitForExit(child, timeoutMs) {
 }
 
 export async function stopHttpProcess(child, timeoutMs = 1_000) {
-  if (child.exitCode !== null || child.signalCode !== null) return;
+  if (child.exitCode !== null || child.signalCode !== null) {
+    return { graceful: child.signalCode !== "SIGKILL", exitCode: child.exitCode, signalCode: child.signalCode };
+  }
   child.kill("SIGTERM");
-  if (await waitForExit(child, timeoutMs)) return;
+  if (await waitForExit(child, timeoutMs)) {
+    return { graceful: true, exitCode: child.exitCode, signalCode: child.signalCode };
+  }
   child.kill("SIGKILL");
   await waitForExit(child, timeoutMs);
+  return { graceful: false, exitCode: child.exitCode, signalCode: child.signalCode };
 }
 
 export async function startHttpProcess(t, options) {
@@ -41,6 +46,7 @@ export async function startHttpProcess(t, options) {
     stdio: ["ignore", "pipe", "pipe"],
   });
   let stderr = "";
+  let stdoutAfterReady = "";
   child.stderr.setEncoding("utf8");
   child.stderr.on("data", (chunk) => {
     if (stderr.length < maxReadyBytes) stderr += chunk.slice(0, maxReadyBytes - stderr.length);
@@ -49,6 +55,12 @@ export async function startHttpProcess(t, options) {
   const ready = await new Promise((resolveReady, rejectReady) => {
     let settled = false;
     let stdout = "";
+    const appendAfterReady = (chunk) => {
+      if (stdoutAfterReady.length < maxReadyBytes) {
+        stdoutAfterReady += chunk.slice(0, maxReadyBytes - stdoutAfterReady.length);
+      }
+    };
+    const onTailData = (chunk) => appendAfterReady(chunk);
     const finish = (operation) => {
       if (settled) return;
       settled = true;
@@ -58,7 +70,10 @@ export async function startHttpProcess(t, options) {
       child.off("exit", onExit);
       operation();
     };
-    const fail = (message) => finish(() => rejectReady(new Error(`${message}${stderr ? `: ${stderr.trim()}` : ""}`)));
+    const fail = (message) => finish(() => {
+      const error = new Error(`${message}${stderr ? `: ${stderr.trim()}` : ""}`);
+      void stopHttpProcess(child).then(() => rejectReady(error), () => rejectReady(error));
+    });
     const onError = (error) => fail(`HTTP process failed to start (${error.message})`);
     const onExit = (code, signal) => fail(`HTTP process exited before readiness (code=${code}, signal=${signal})`);
     const onData = (chunk) => {
@@ -74,6 +89,8 @@ export async function startHttpProcess(t, options) {
         assert(value && typeof value === "object", "readiness must be a JSON object");
         assert.equal(value.host ?? "127.0.0.1", "127.0.0.1", "readiness host must be loopback");
         assert(Number.isInteger(value.port) && value.port > 0 && value.port <= 65_535, "readiness port must be valid");
+        appendAfterReady(stdout.slice(newline + 1));
+        child.stdout.on("data", onTailData);
         finish(() => resolveReady(value));
       } catch (error) {
         fail(`Invalid HTTP readiness line (${error.message})`);
@@ -92,5 +109,6 @@ export async function startHttpProcess(t, options) {
     origin: `http://127.0.0.1:${ready.port}`,
     ready,
     stderr: () => stderr,
+    stdoutAfterReady: () => stdoutAfterReady,
   };
 }

@@ -280,6 +280,9 @@ def make_handler(store, max_body_bytes):
             length = 0 if size == 0 else end - start + 1
             if not active("omit_blob_content_length"):
                 extra_headers["Content-Length"] = str(length)
+            else:
+                self.close_connection = True
+                extra_headers["Connection"] = "close"
             self.send_response(status_code)
             for name, header_value in extra_headers.items():
                 self.send_header(name, header_value)

@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import http from "node:http";
-import { readFile } from "node:fs/promises";
+import { mkdtemp, readFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { dirname, resolve } from "node:path";
 import test from "node:test";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -50,18 +51,42 @@ test("HTTP starter helper exercises a real loopback JSON request", async (t) => 
 
 test("process HTTP helper starts and stops a cross-runtime style server", async (t) => {
   const helpers = await import(pathToFileURL(resolve(kitRoot, "tests/process-http-helpers.mjs")).href) as {
-    startHttpProcess(context: typeof t, options: { command: string[] }): Promise<{ origin: string }>;
+    startHttpProcess(context: typeof t, options: { command: string[] }): Promise<{
+      origin: string;
+      stdoutAfterReady(): string;
+    }>;
   };
   const script = [
     'const http = require("node:http")',
     'const server = http.createServer((_request, response) => response.end("process-ok"))',
-    'server.listen(0, "127.0.0.1", () => console.log(JSON.stringify({ host: "127.0.0.1", port: server.address().port })))',
+    'server.listen(0, "127.0.0.1", () => { console.log(JSON.stringify({ host: "127.0.0.1", port: server.address().port })); console.log("after-ready") })',
     'process.on("SIGTERM", () => server.close(() => process.exit(0)))',
   ].join(";");
-  const { origin } = await helpers.startHttpProcess(t, { command: [process.execPath, "-e", script] });
+  const running = await helpers.startHttpProcess(t, { command: [process.execPath, "-e", script] });
+  const { origin } = running;
   const response = await fetch(origin);
   assert.equal(response.status, 200);
   assert.equal(await response.text(), "process-ok");
+  assert.match(running.stdoutAfterReady(), /after-ready/);
+});
+
+test("process HTTP helper cleans up a child that fails readiness validation", async (t) => {
+  const helpers = await import(pathToFileURL(resolve(kitRoot, "tests/process-http-helpers.mjs")).href) as {
+    startHttpProcess(context: typeof t, options: { command: string[] }): Promise<unknown>;
+  };
+  const root = await mkdtemp(resolve(tmpdir(), "invalid-readiness-cleanup-"));
+  const marker = resolve(root, "terminated.txt");
+  const script = [
+    'const fs = require("node:fs")',
+    'process.on("SIGTERM", () => { fs.writeFileSync(process.argv[1], "terminated"); process.exit(0) })',
+    'console.log(JSON.stringify({ host: "0.0.0.0", port: 12345 }))',
+    'setInterval(() => {}, 1000)',
+  ].join(";");
+  await assert.rejects(
+    helpers.startHttpProcess(t, { command: [process.execPath, "-e", script, marker] }),
+    /readiness host must be loopback/,
+  );
+  assert.equal(await readFile(marker, "utf8"), "terminated");
 });
 
 test("starter kit stays business-neutral", async () => {
