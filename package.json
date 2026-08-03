@@ -18,6 +18,7 @@
     "test:loopback": "node scripts/probe-agent-loopback.mjs",
     "benchmark": "npm run build && node dist/benchmark/run.js",
     "pilot": "npm run build && node dist/pilot/run.js",
+    "mutation:python": "npm run build && node dist/pilot/python-api-mutations.js",
     "prepack": "npm run build",
     "verify:self": "npm run build && node dist/src/cli.js verify --config delivery-gate.json"
   },
