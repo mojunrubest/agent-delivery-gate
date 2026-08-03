@@ -301,6 +301,7 @@ def make_handler(store, max_body_bytes):
             self.send_json(status_code, {"error": "invalid_range"}, headers, include_body)
 
         def unsupported(self):
+            self.close_connection = True
             if active("unknown_method_405"):
                 self.send_json(405, {"error": "method_not_allowed"})
                 return
